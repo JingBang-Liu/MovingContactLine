@@ -1,0 +1,13 @@
+tolerance 2.0
+
+filetype xyz
+
+output ham.xyz
+
+structure argon.xyz
+
+	number 48840
+	
+	inside box 0.0 0.0 0.0 550.0 117.83 80.46
+
+end structure
