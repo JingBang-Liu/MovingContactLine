@@ -15,12 +15,11 @@ read_data		atomdata
 
 ############################################################	
 #############INTERACTION PARAMETERS#########################
-group                   bread     type 1:2
-group                   ham       type 3
+group                   bread     type 2
+group                   ham       type 1
 
-mass           		3 	39.792  ## atomic mass of argon
 mass                    2       195.084  ## atomic mass of platinum
-mass                    1       195.084  ## atomic mass of platinum
+mass                    1       39.95  ## atomic mass of platinum
 
 neighbor        	2.0 bin
 neigh_modify		every 1 delay 1 check yes
@@ -34,12 +33,9 @@ neigh_modify		every 1 delay 1 check yes
 ################### L-J potential #####################
 pair_style             lj/cut  5.5
 
-pair_coeff             3 3  0.24 3.4  18.7
-pair_coeff             2 3  0.168 2.72  18.7
-pair_coeff             1 3  0.168 2.72  18.7
-pair_coeff             1 2  0.0   0.0   1.0
+pair_coeff             1 1  0.24 3.4  18.7
+pair_coeff             1 2  0.168 2.72  18.7
 pair_coeff             2 2  15.999 2.47  7.0
-pair_coeff             1 1  15.999 2.47  7.0
 ######################################################
 
 fix	    		f1 bread setforce 0.0 0.0 0.0
