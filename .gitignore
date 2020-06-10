@@ -1,3 +1,6 @@
 lmp_mpi
 *.dat
 *.out
+*.o
+*.mod
+exec

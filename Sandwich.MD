@@ -10,7 +10,8 @@ atom_style		atomic
 dimension 		3	
 boundary		p p p	
 
-read_data		atomdata
+#read_data		atomdata
+read_data         	atomdata_small
 #read_restart 		water.restart.mpiio
 
 ############################################################	
@@ -64,8 +65,8 @@ fix            		extra ham print 2000 "$(step) $(temp) $(pe)" append iteration_i
 
 timestep		5.0
 reset_timestep 		0
-restart     		100000 water.restart.mpiio
+#restart     		100000 water.restart.mpiio
 dump			1 all custom 500 sandwich.dat id type x y z
-run			200000
+run			5000
 
 
