@@ -1,8 +1,8 @@
 /*********** data file information ****************
-'../test.dat'     ! file name
+'../oneframe.dat'     ! file name
 xyz                   ! data type
 9                     ! header
-5                     ! number of particles
+179040                     ! number of particles
 /*************** analysis params ****************
 3.0                   ! radius cutoff for density
 /*****************test***************************
