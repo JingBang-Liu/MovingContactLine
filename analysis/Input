@@ -1,0 +1,11 @@
+/*********** data file information ****************
+'../sandwich.dat'     ! file name
+xyz                   ! data type
+9                     ! header
+16588                 ! number of particles
+/*************** analysis params ****************
+3.0                   ! radius cutoff for density
+/*****************test***************************
+1 2 3 4               ! test read
+/**************** end **********************
+-10001
