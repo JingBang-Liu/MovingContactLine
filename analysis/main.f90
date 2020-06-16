@@ -13,6 +13,7 @@ PROGRAM main
 
   CALL write_pos_1_Duncan
   !CALL calc_dens(radius_tol)
+  CALL write_xyz_ovito
   PRINT*, n_lines
   PRINT*, n_header
   PRINT*, n_particle

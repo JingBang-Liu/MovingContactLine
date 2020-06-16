@@ -195,29 +195,35 @@ MODULE my_read_write
 
     OPEN(1, file = 'pos1.dat')
     DO i=1,n_type_1
-      WRITE(1,"( 3(E16.9, 2X) )") pos_1(1,i,3),pos_1(1,i,4),pos_1(1,i,5)
+      WRITE(1,"( 3(E16.9, 2X) )") pos_1(1,i,1),pos_1(1,i,2),pos_1(1,i,3)
     END DO
     CLOSE(1)
   END SUBROUTINE
 
   SUBROUTINE write_xyz_ovito
-    INTEGER :: i
+    INTEGER :: i,j
 
     OPEN(1, file = 'xyz_ovito.dat')
     DO i = 1,time_marks
-      WRITE(1,*) "ITEM: TIMESTEP"
-      WRITE(1,*) int(i*output_gap)
-      WRITE(1,*) "ITEM: NUMBER OF ATOMS"
-      WRITE(1,*) n_particle
-      WRITE(1,*) "ITEM: BOX BOUNDS pp pp pp"
-      WRITE(1,*) XD(1), XD(2)
-      WRITE(1,*) YD(1), YD(2)
-      WRITE(1,*) ZD(1), ZD(2)
-      WRITE(1,*) "ITEM: ATOMS id type x y z"
+      WRITE(1,"(A14)") "ITEM: TIMESTEP"
+      !WRITE(1,*) int((i-1)*output_gap)
+      WRITE(1,"(I7)") int((i-1)*output_gap)
+      WRITE(1,"(A21)") "ITEM: NUMBER OF ATOMS"
+      WRITE(1,"(I8)") n_particle
+      WRITE(1,"(A25)") "ITEM: BOX BOUNDS pp pp pp"
+      WRITE(1,"( 2(E16.9, 2X) )") XD(1), XD(2)
+      WRITE(1,"( 2(E16.9, 2X) )") YD(1), YD(2)
+      WRITE(1,"( 2(E16.9, 2X) )") ZD(1), ZD(2)
+      WRITE(1,"(A25)") "ITEM: ATOMS id type x y z"
       DO j = 1,n_particle
-        WRITE(1,*) int(pos(i,j,1)),int(pos(i,j,2)),pos(i,j,3),pos(i,j,4),pos(i,j,5) 
+        WRITE(1,"( (I7, 2X), (I1, 2X), 3(E16.9, 2X) )") int(pos(i,j,1)),int(pos(i,j,2)),pos(i,j,3),pos(i,j,4),pos(i,j,5) 
       END DO
     END DO
+    CLOSE(1)
+
+  END SUBROUTINE
+
+  SUBROUTINE write_xyz_ovito_1
 
   END SUBROUTINE
 
