@@ -3,8 +3,12 @@
 xyz                   ! data type
 9                     ! header
 179040                     ! number of particles
+500                   ! output_gap
 /*************** analysis params ****************
 3.0                   ! radius cutoff for density
+50                    ! number of bins in x direction
+10                    ! number of bins in y direction
+10                    ! number of bins in z direction
 /*****************test***************************
 1 2 3 4               ! test read
 /**************** end **********************

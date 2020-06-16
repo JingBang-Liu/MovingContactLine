@@ -18,10 +18,14 @@ MODULE dictionary
   INTEGER :: n_lines ! number of lines the data file have
   INTEGER :: time_marks ! number of iterations
   INTEGER :: n_type_1, n_type_2, n_type_3
+  REAL(REAL64), DIMENSION(2) :: XD, YD, ZD  ! size of simulation box
+  INTEGER :: output_gap  ! time gap between outputs
 
   !!!!!!!!!!!!!!!!!!! analysis variables !!!!!!!!!!!!!!!!
   REAL(REAL64), DIMENSION(:,:), ALLOCATABLE :: dens
   REAL(REAL64) :: radius_tol ! radius cutoff for density 
+  INTEGER :: nbin_x, nbin_y, nbin_z
+  REAL(REAL64), DIMENSION(:,:,:,:), ALLOCATABLE :: bins_1, bins_2, bins
 
 END MODULE
 

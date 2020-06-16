@@ -21,9 +21,13 @@ MODULE my_read_write
     READ(1,*) data_type
     READ(1,*) n_header
     READ(1,*) n_particle
+    READ(1,*) output_gap
     !/********** analysis params**********
     READ(1,*)
     READ(1,*) radius_tol
+    READ(1,*) nbin_x
+    READ(1,*) nbin_y
+    READ(1,*) nbin_z
     !/************** test *****************
     READ(1,*)
     READ(1,*) test_1, test_2
@@ -111,10 +115,19 @@ MODULE my_read_write
 
     time_marks = int(n_lines/(n_header+n_particle))
     
-    ALLOCATE(pos(time_marks,n_particle,3))
+    ALLOCATE(pos(time_marks,n_particle,5))
     ALLOCATE(pos_1(time_marks,n_type_1,3))
     ALLOCATE(pos_2(time_marks,n_type_2,3))
     ALLOCATE(pos_3(time_marks,n_type_3,3))
+
+    OPEN (1, file = filename)
+    DO i=1,5
+      READ(1,*)
+    END DO
+    READ(1,*) XD(1), XD(2)
+    READ(1,*) YD(1), YD(2)
+    READ(1,*) ZD(1), ZD(2)
+    CLOSE(1)
 
     OPEN (1, file = filename)
     DO i = 1,time_marks
@@ -132,25 +145,31 @@ MODULE my_read_write
             pos_1(i,type_1_count,1) = x_temp
             pos_1(i,type_1_count,2) = y_temp
             pos_1(i,type_1_count,3) = z_temp
-            pos(i,particle_temp,1) = x_temp
-            pos(i,particle_temp,2) = y_temp
-            pos(i,particle_temp,3) = z_temp
+            pos(i,particle_temp,1) = particle_temp
+            pos(i,particle_temp,2) = 1
+            pos(i,particle_temp,3) = x_temp
+            pos(i,particle_temp,4) = y_temp
+            pos(i,particle_temp,5) = z_temp
           CASE(2)
             type_2_count = type_2_count + 1
             pos_2(i,type_2_count,1) = x_temp
             pos_2(i,type_2_count,2) = y_temp
             pos_2(i,type_2_count,3) = z_temp
-            pos(i,particle_temp,1) = x_temp
-            pos(i,particle_temp,2) = y_temp
-            pos(i,particle_temp,3) = z_temp
+            pos(i,particle_temp,1) = particle_temp
+            pos(i,particle_temp,2) = 2
+            pos(i,particle_temp,3) = x_temp
+            pos(i,particle_temp,4) = y_temp
+            pos(i,particle_temp,5) = z_temp
           CASE(3)
             type_3_count = type_3_count + 1
             pos_3(i,type_3_count,1) = x_temp
             pos_3(i,type_3_count,2) = y_temp
             pos_3(i,type_3_count,3) = z_temp
-            pos(i,particle_temp,1) = x_temp
-            pos(i,particle_temp,2) = y_temp
-            pos(i,particle_temp,3) = z_temp
+            pos(i,particle_temp,1) = particle_temp
+            pos(i,particle_temp,2) = 3
+            pos(i,particle_temp,3) = x_temp
+            pos(i,particle_temp,4) = y_temp
+            pos(i,particle_temp,5) = z_temp
         END SELECT
       END DO
     END DO
@@ -176,9 +195,30 @@ MODULE my_read_write
 
     OPEN(1, file = 'pos1.dat')
     DO i=1,n_type_1
-      WRITE(1,"( 3(E16.9, 2X) )") pos_1(1,i,1),pos_1(1,i,2),pos_1(1,i,3)
+      WRITE(1,"( 3(E16.9, 2X) )") pos_1(1,i,3),pos_1(1,i,4),pos_1(1,i,5)
     END DO
     CLOSE(1)
+  END SUBROUTINE
+
+  SUBROUTINE write_xyz_ovito
+    INTEGER :: i
+
+    OPEN(1, file = 'xyz_ovito.dat')
+    DO i = 1,time_marks
+      WRITE(1,*) "ITEM: TIMESTEP"
+      WRITE(1,*) int(i*output_gap)
+      WRITE(1,*) "ITEM: NUMBER OF ATOMS"
+      WRITE(1,*) n_particle
+      WRITE(1,*) "ITEM: BOX BOUNDS pp pp pp"
+      WRITE(1,*) XD(1), XD(2)
+      WRITE(1,*) YD(1), YD(2)
+      WRITE(1,*) ZD(1), ZD(2)
+      WRITE(1,*) "ITEM: ATOMS id type x y z"
+      DO j = 1,n_particle
+        WRITE(1,*) int(pos(i,j,1)),int(pos(i,j,2)),pos(i,j,3),pos(i,j,4),pos(i,j,5) 
+      END DO
+    END DO
+
   END SUBROUTINE
 
 END MODULE

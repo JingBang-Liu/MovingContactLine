@@ -9,6 +9,7 @@ PROGRAM main
   
   CALL read_input
   CALL read_data
+  CALL trim_data
 
   CALL write_pos_1_Duncan
   !CALL calc_dens(radius_tol)
