@@ -4,3 +4,4 @@ lmp_mpi
 *.o
 *.mod
 exec
+*.pdf
