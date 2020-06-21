@@ -22,10 +22,12 @@ MODULE dictionary
   INTEGER :: output_gap  ! time gap between outputs
 
   !!!!!!!!!!!!!!!!!!! analysis variables !!!!!!!!!!!!!!!!
-  REAL(REAL64), DIMENSION(:,:), ALLOCATABLE :: dens
+  REAL(REAL64), DIMENSION(:,:), ALLOCATABLE :: dens, dens_1, dens_1_all
   REAL(REAL64) :: radius_tol ! radius cutoff for density 
   INTEGER :: nbin_x, nbin_y, nbin_z
   REAL(REAL64), DIMENSION(:,:,:,:), ALLOCATABLE :: bins_1, bins_2, bins
+  INTEGER, DIMENSION(:,:), ALLOCATABLE :: contact_line_index_1
+  REAL(REAL64), DIMENSION(2) :: tol_1, tol_1_all
 
 END MODULE
 

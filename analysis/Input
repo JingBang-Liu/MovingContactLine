@@ -5,10 +5,14 @@ xyz                   ! data type
 179040                     ! number of particles
 500                   ! output_gap
 /*************** analysis params ****************
-3.0                   ! radius cutoff for density
-50                    ! number of bins in x direction
-10                    ! number of bins in y direction
-10                    ! number of bins in z direction
+18.0                   ! radius cutoff for density
+300                    ! number of bins in x direction
+50                    ! number of bins in y direction
+50                    ! number of bins in z direction
+0.5                   ! tol_1(1), tol_min
+0.8                   ! tol_1(2), tol_max
+1.5                   ! tol_1_all(1), tol_all_min
+2.2                   ! tol_1_all(1), tol_all_max
 /*****************test***************************
 1 2 3 4               ! test read
 /**************** end **********************

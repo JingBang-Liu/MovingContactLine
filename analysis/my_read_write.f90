@@ -28,6 +28,10 @@ MODULE my_read_write
     READ(1,*) nbin_x
     READ(1,*) nbin_y
     READ(1,*) nbin_z
+    READ(1,*) tol_1(1)
+    READ(1,*) tol_1(2)
+    READ(1,*) tol_1_all(1)
+    READ(1,*) tol_1_all(2)
     !/************** test *****************
     READ(1,*)
     READ(1,*) test_1, test_2
@@ -176,16 +180,61 @@ MODULE my_read_write
     CLOSE(1)
   END SUBROUTINE
   
+  SUBROUTINE read_dens_1
+    INTEGER :: i,j
+
+    ALLOCATE(dens_1(time_marks,n_type_1))
+    OPEN(1, file = 'dens_1.dat')
+    DO i=1,time_marks
+      DO j=1,n_type_1
+        READ(1,*) dens_1(i,j)
+      END DO
+    END DO
+    CLOSE(1)
+
+  END SUBROUTINE
+
+  SUBROUTINE read_dens_1_all
+    INTEGER :: i,j
+
+    ALLOCATE(dens_1_all(time_marks,n_type_1))
+    OPEN(1, file = 'dens_1_all.dat')
+    DO i=1,time_marks
+      DO j=1,n_type_1
+        READ(1,*) dens_1_all(i,j)
+      END DO
+    END DO
+    CLOSE(1)
+
+  END SUBROUTINE
+  
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   ! subroutine that output density
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  SUBROUTINE write_dens
-    INTEGER :: i
+  SUBROUTINE write_dens_1
+    INTEGER :: i,j
 
-    OPEN(1, file = 'dens.dat')
-
+    OPEN(1, file = 'dens_1.dat')
+    DO i=1,time_marks
+      DO j=1,n_type_1
+        WRITE(1,"( (E16.9, 2X) )") dens_1(i,j)
+      END DO
+    END DO
     CLOSE(1)
   END SUBROUTINE
+
+  SUBROUTINE write_dens_1_all
+    INTEGER :: i,j
+
+    OPEN(1, file = 'dens_1_all.dat')
+    DO i=1,time_marks
+      DO j=1,n_type_1
+        WRITE(1,"( (E16.9, 2X) )") dens_1_all(i,j)
+      END DO
+    END DO
+    CLOSE(1)
+
+   END SUBROUTINE
 
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   ! subroutine that writes position data of liquid particles
@@ -224,6 +273,28 @@ MODULE my_read_write
   END SUBROUTINE
 
   SUBROUTINE write_xyz_ovito_1
+    INTEGER :: i,j
+    INTEGER :: line_num
+
+    OPEN(1, file='xyz_ovito_1.dat')
+    DO i = 1,time_marks
+      line_num = 0
+      WRITE(1,"(A14)") "ITEM: TIMESTEP"
+      !WRITE(1,*) int((i-1)*output_gap)
+      WRITE(1,"(I7)") int((i-1)*output_gap)
+      WRITE(1,"(A21)") "ITEM: NUMBER OF ATOMS"
+      WRITE(1,"(I8)") n_type_1
+      WRITE(1,"(A25)") "ITEM: BOX BOUNDS pp pp pp"
+      WRITE(1,"( 2(E16.9, 2X) )") XD(1), XD(2)
+      WRITE(1,"( 2(E16.9, 2X) )") YD(1), YD(2)
+      WRITE(1,"( 2(E16.9, 2X) )") ZD(1), ZD(2)
+      WRITE(1,"(A25)") "ITEM: ATOMS id type x y z"
+      DO j = 1,n_type_1
+        line_num = line_num + 1
+        WRITE(1,"( (I7, 2X), (I1, 2X), 3(E16.9, 2X) )") int(line_num),int(1),pos_1(i,j,1),pos_1(i,j,2),pos_1(i,j,3) 
+      END DO
+    END DO
+    CLOSE(1)
 
   END SUBROUTINE
 
