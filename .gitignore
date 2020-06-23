@@ -5,3 +5,5 @@ lmp_mpi
 *.mod
 exec
 *.pdf
+*.mat
+*.avi
