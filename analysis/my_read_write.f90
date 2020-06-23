@@ -207,6 +207,11 @@ MODULE my_read_write
     CLOSE(1)
 
   END SUBROUTINE
+
+  !SUBROUTINE read_bins_dens
+  !  
+  !
+  !END SUBROUTINE
   
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   ! subroutine that output density

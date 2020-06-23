@@ -20,6 +20,7 @@ MODULE dictionary
   INTEGER :: n_type_1, n_type_2, n_type_3
   REAL(REAL64), DIMENSION(2) :: XD, YD, ZD  ! size of simulation box
   INTEGER :: output_gap  ! time gap between outputs
+  INTEGER :: time_marks_dens
 
   !!!!!!!!!!!!!!!!!!! analysis variables !!!!!!!!!!!!!!!!
   REAL(REAL64), DIMENSION(:,:), ALLOCATABLE :: dens, dens_1, dens_1_all
