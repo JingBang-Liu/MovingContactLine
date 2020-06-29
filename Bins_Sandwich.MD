@@ -12,7 +12,9 @@ atom_style		atomic
 dimension 		3	
 boundary		p p p	
 
-read_data		atomdata
+read_data  		bond_atomdata
+#read_data 		bond_atomdata_small
+#read_data		atomdata
 #read_data         	atomdata_small
 #read_restart 		water.restart.mpiio
 
