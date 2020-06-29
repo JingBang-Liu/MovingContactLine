@@ -32,6 +32,12 @@ MODULE my_read_write
     READ(1,*) tol_1(2)
     READ(1,*) tol_1_all(1)
     READ(1,*) tol_1_all(2)
+    READ(1,*) XB(1)
+    READ(1,*) XB(2)
+    READ(1,*) YB(1)
+    READ(1,*) YB(2)
+    READ(1,*) ZB(1)
+    READ(1,*) ZB(2)
     !/************** test *****************
     READ(1,*)
     READ(1,*) test_1, test_2
@@ -301,6 +307,18 @@ MODULE my_read_write
     END DO
     CLOSE(1)
 
+  END SUBROUTINE
+
+  SUBROUTINE write_one_contactline
+  INTEGER :: i, j
+
+  OPEN(1, file='contactline_matrix.dat')
+  DO i=1,time_marks
+    DO j=1,nbin_x
+      WRITE(1,*) bins_1(i,j,:,1)
+    END DO
+  END DO
+  CLOSE(1)
   END SUBROUTINE
 
 END MODULE

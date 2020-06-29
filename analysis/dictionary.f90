@@ -29,6 +29,7 @@ MODULE dictionary
   REAL(REAL64), DIMENSION(:,:,:,:), ALLOCATABLE :: bins_1, bins_2, bins
   INTEGER, DIMENSION(:,:), ALLOCATABLE :: contact_line_index_1
   REAL(REAL64), DIMENSION(2) :: tol_1, tol_1_all
+  REAL(REAL64), DIMENSION(2) :: XB, YB, ZB ! size of bins
 
 END MODULE
 

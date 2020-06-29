@@ -171,10 +171,12 @@ MODULE analysis
     bins_1 = 0.0_REAL64
     DO i=1,time_marks
       DO j=1,n_type_1
-        binI = INT(CEILING(nbin_x*(pos_1(i,j,1)-XD(1))/(XD(2)-XD(1))))
-        binJ = INT(CEILING(nbin_y*(pos_1(i,j,2)-YD(1))/(YD(2)-YD(1))))
-        binK = INT(CEILING(nbin_z*(pos_1(i,j,3)-ZD(1))/(ZD(2)-ZD(1))))
-        bins_1(i,binI,binJ,binK) = bins_1(i,binI,binJ,binK) + 1
+        binI = INT(CEILING(nbin_x*(pos_1(i,j,1)-XB(1))/(XB(2)-XB(1))))
+        binJ = INT(CEILING(nbin_y*(pos_1(i,j,2)-YB(1))/(YB(2)-YB(1))))
+        binK = INT(CEILING(nbin_z*(pos_1(i,j,3)-ZB(1))/(ZB(2)-ZB(1))))
+        IF ((binI>0).AND.(binI<nbin_x+1).AND.(binJ>0).AND.(binJ<nbin_y+1).AND.(binK>0).AND.(binK<nbin_z+1)) THEN
+          bins_1(i,binI,binJ,binK) = bins_1(i,binI,binJ,binK) + 1
+        END IF
       END DO
     END DO
 

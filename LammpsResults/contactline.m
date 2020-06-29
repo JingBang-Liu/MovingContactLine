@@ -56,7 +56,7 @@ writerObj.FrameRate = 10;
 writerObj.Quality = 95;
 
 open(writerObj);
-for i=1:frameNf
+for i=1:frameN
     frame = F(i);
     writeVideo(writerObj, frame);
 end
