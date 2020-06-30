@@ -31,29 +31,33 @@ mass                    2       12.0  ## atomic mass of platinum
 mass                    1       12.0  ## atomic mass of platinum
 
 neighbor        	2.0 bin
-neigh_modify		every 1 delay 1 check yes
+neigh_modify		every 1 delay 10 check yes
 ################### L-J potential #####################
 pair_style              lj/cut  5.5
 
-pair_coeff              1 1  ${epsilon} ${sigma}  2.5*${sigma}
-pair_coeff              1 2  ${epsilon} ${sigma}  2.5*${sigma}
-pair_coeff              2 2  ${epsilon}*0.8 ${sigma}  2.5*${sigma}
+pair_coeff              1 1  0.0656 3.5 8.75
+pair_coeff              1 2  0.0656 3.5 8.75
+pair_coeff              2 2  0.05248 3.5 8.75
 #################### FENE bond #########################
 bond_style 		fene
-bond_coeff 		1 0.0655 1.4*${sigma} 0.0 0.0
+bond_coeff 		1 0.0655 4.9 0.0 0.0
 #################### Harmonic potential ##################
-fix 			wall bread spring/self 1000*${epsilon}/${sigma}/${sigma}
+fix 			wall bread spring/self 5.355101
 
+thermo 			10
+min_style 		fire
+min_modify 		dmax 0.01
+minimize 		1.0e-5 1.0e-7 200 10000
 
 ############################################################	
 #############EQUILIBRATION PARAMETERS######################
 velocity 		ham create ${T} 12345
 velocity                bread set 0.0 0.0 0.0
 compute 		myTemp ham temp
-fix			1 ham nvt temp ${temperature} ${temperature} 100.0
+fix			1 ham nvt temp ${T} ${T} 100.0
 fix_modify   		1 temp myTemp
 
-run 			2000
+run 			100
 
 ###########################################################
 ############### Post parameters############################
@@ -69,7 +73,7 @@ fix            		extra ham print 1000 "$(step) $(temp) $(pe)" append iteration_i
 			screen no
 
 #restart     		100000 water.restart.mpiio
-dump			1 all custom 200 bond_sandwich.dat id type x y z
-run			5000
+dump			1 all custom 200 longlong_bond_sandwich.dat id type x y z
+run			250000
 
 
