@@ -12,7 +12,8 @@ liquid_latt(1) = 3.01;
 liquid_latt(2) = liquid_dim(2)/(yatoms-1);
 liquid_latt(3) = liquid_dim(3)/(zatoms-1);
 liquid_dim(1) = liquid_latt(1)*xatoms;
-liquid_start = [250; 0; 3*3.93];
+%liquid_start = [250; 0; 3*3.93];
+liquid_start = [0.0; 0.0; 0.0];
 
 % create and write positions
 m=0;
@@ -35,7 +36,7 @@ end
 line2=zeros(nn,1)+1;
 line3=zeros(nn,1)+1;
 m=0;
-npermole = 4;
+npermole = 8;
 nmole = nn/npermole;
 for i=1:nmole
     for j=1:npermole
@@ -73,47 +74,47 @@ fileID = fopen('bonds.dat','w');
 fprintf(fileID,'%i %i %i %i\n',lineall2');
 fclose(fileID);
 
-%% Walls
-wall_tol = 16275;
-walls_tol = wall_tol*2;
-latt = 3.93;
-xatoms = 175;
-yatoms = 31;
-zatoms = 3;
-bot_wall_start = [0; 0; 0];
-top_wall_start = [0; 0; 102.18];
-
-posx = zeros(walls_tol,1);
-posy = zeros(walls_tol,1);
-posz = zeros(walls_tol,1);
-m=0;
-for k=0:1:zatoms-1
-    for j=0:1:yatoms-1
-        for i=0:1:xatoms-1
-            m=m+1;
-            posx(m)=bot_wall_start(1) + i*latt;
-            posy(m)=bot_wall_start(2) + j*latt;
-            posz(m)=bot_wall_start(3) + k*latt;
-        end
-    end
-end
-for k=0:1:zatoms-1
-    for j=0:1:yatoms-1
-        for i=0:1:xatoms-1
-            m=m+1;
-            posx(m)=top_wall_start(1) + i*latt;
-            posy(m)=top_wall_start(2) + j*latt;
-            posz(m)=top_wall_start(3) + k*latt;
-        end
-    end
-end
-line1 = liquid_tol+1:1:walls_tol+liquid_tol;
-line2 = nmole+1:1:nmole+walls_tol;
-line3 = zeros(walls_tol,1)+2;
-lineall3 = [line1' line2' line3 posx posy posz];
-fileID = fopen('atoms.dat','at');
-fprintf(fileID,'%i %i %i %f %f %f\n',lineall3');
-fclose(fileID);
-
-
-
+% %% Walls
+% wall_tol = 16275;
+% walls_tol = wall_tol*2;
+% latt = 3.93;
+% xatoms = 175;
+% yatoms = 31;
+% zatoms = 3;
+% bot_wall_start = [0; 0; 0];
+% top_wall_start = [0; 0; 102.18];
+% 
+% posx = zeros(walls_tol,1);
+% posy = zeros(walls_tol,1);
+% posz = zeros(walls_tol,1);
+% m=0;
+% for k=0:1:zatoms-1
+%     for j=0:1:yatoms-1
+%         for i=0:1:xatoms-1
+%             m=m+1;
+%             posx(m)=bot_wall_start(1) + i*latt;
+%             posy(m)=bot_wall_start(2) + j*latt;
+%             posz(m)=bot_wall_start(3) + k*latt;
+%         end
+%     end
+% end
+% for k=0:1:zatoms-1
+%     for j=0:1:yatoms-1
+%         for i=0:1:xatoms-1
+%             m=m+1;
+%             posx(m)=top_wall_start(1) + i*latt;
+%             posy(m)=top_wall_start(2) + j*latt;
+%             posz(m)=top_wall_start(3) + k*latt;
+%         end
+%     end
+% end
+% line1 = liquid_tol+1:1:walls_tol+liquid_tol;
+% line2 = nmole+1:1:nmole+walls_tol;
+% line3 = zeros(walls_tol,1)+2;
+% lineall3 = [line1' line2' line3 posx posy posz];
+% fileID = fopen('atoms.dat','at');
+% fprintf(fileID,'%i %i %i %f %f %f\n',lineall3');
+% fclose(fileID);
+% 
+% 
+% 

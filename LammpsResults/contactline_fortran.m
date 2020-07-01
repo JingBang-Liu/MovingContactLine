@@ -22,15 +22,17 @@ yEdges = [y(1)-ySplit(1) y(2:end)-ySplit y(end)+ySplit(end)];
 [XGrid, YGrid] = meshgrid(xEdges,yEdges);
 YGrid = flipud(YGrid);              % To match expected behavior
 C = bins(:,:,3);
-C = [[C zeros(size(C,1),1)] ; zeros(1,size(C,2)+1)];% Last row/col ignored
+C = [[C zeros(size(C,1),1)] ; zeros(1,size(C,2)+1)];% Last row/col ign
 pcolor(XGrid,YGrid,C)
 colorbar;
+ax = gca;
+ax.FontSize = 20;
 % hold on                             % Plot original data points
 % [X,Y] = meshgrid(x,y);
 % Y = flipud(Y);
 % plot(X,Y,'or')
-xlabel('x');
-ylabel('y');
+xlabel('x','Fontsize',20);
+ylabel('y','Fontsize',20);
 
 frameN = timemarks;
 
@@ -61,20 +63,20 @@ frameN = timemarks;
 % close(writerObj);
 % close(figure(1))
 
-binsX = zeros(timemarks,NBX);
-% for i=1,timemarks
-%     binsX(i,:) = sum(bins(:,:,i));
+% binsX = zeros(timemarks,NBX);
+% % for i=1,timemarks
+% %     binsX(i,:) = sum(bins(:,:,i));
+% % end
+% for i=1:timemarks
+%     binsX(i,:) = permute(sum(bins(:,:,i)),[2,1]);
 % end
-for i=1:timemarks
-    binsX(i,:) = permute(sum(bins(:,:,i)),[2,1]);
-end
-% chunkdens = mean(reshape(binsX(1:251,30:55),[1,251*26]))
-% chunkdens = mean(binsX(1:251,30:55),'all')
-chunkdens = mean(permute(binsX(1,30:55),[2,1]));
-figure(2)
-plot(x,binsX(2,:))
-xlabel('x');
-ylabel('N');
-title('timestep 50');
+% % chunkdens = mean(reshape(binsX(1:251,30:55),[1,251*26]))
+% % chunkdens = mean(binsX(1:251,30:55),'all')
+% chunkdens = mean(permute(binsX(1,30:55),[2,1]));
+% figure(2)
+% plot(x,binsX(2,:))
+% xlabel('x');
+% ylabel('N');
+% title('timestep 50');
 
 

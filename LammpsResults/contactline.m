@@ -1,5 +1,5 @@
 clear all
-bins_data = matfile('densM.mat');
+bins_data = matfile('1densM.mat');
 bins = bins_data.bins;
 
 s = size(bins);
@@ -34,31 +34,31 @@ pcolor(XGrid,YGrid,C)
 xlabel('x');
 ylabel('y');
 
-frameN = timemarks
-
-for i=1:frameN
-    figure(1)
-    set(gcf,'position',[10,10,570,417])
-    C = permute(bins(i,:,:,1),[3,2,1,4]);
-    C = [[C zeros(size(C,1),1)] ; zeros(1,size(C,2)+1)];% Last row/col ignored
-    pcolor(XGrid,YGrid,C)
-    F(i) = getframe(gcf);
-    drawnow
-    ax = gcf;
-    ax.Units = 'pixels';
-    fprintf('%d %d %d %d\n',ax.Position)
-    s = size(F(i).cdata);
-    fprintf('%d %d\n', s(2), s(1))
-end
-
-writerObj = VideoWriter('ContactLineBottom.avi');
-writerObj.FrameRate = 10;
-writerObj.Quality = 95;
-
-open(writerObj);
-for i=1:frameN
-    frame = F(i);
-    writeVideo(writerObj, frame);
-end
-close(writerObj);
-close(figure(1))
+% frameN = timemarks
+% 
+% for i=1:frameN
+%     figure(1)
+%     set(gcf,'position',[10,10,570,417])
+%     C = permute(bins(i,:,:,1),[3,2,1,4]);
+%     C = [[C zeros(size(C,1),1)] ; zeros(1,size(C,2)+1)];% Last row/col ignored
+%     pcolor(XGrid,YGrid,C)
+%     F(i) = getframe(gcf);
+%     drawnow
+%     ax = gcf;
+%     ax.Units = 'pixels';
+%     fprintf('%d %d %d %d\n',ax.Position)
+%     s = size(F(i).cdata);
+%     fprintf('%d %d\n', s(2), s(1))
+% end
+% 
+% writerObj = VideoWriter('ContactLineBottom.avi');
+% writerObj.FrameRate = 10;
+% writerObj.Quality = 95;
+% 
+% open(writerObj);
+% for i=1:frameN
+%     frame = F(i);
+%     writeVideo(writerObj, frame);
+% end
+% close(writerObj);
+% close(figure(1))

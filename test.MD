@@ -21,7 +21,7 @@ atom_style		bond
 special_bonds 		fene
 
 dimension 		3	
-boundary		p p f	
+boundary		p p p	
 
 read_data 		test_atomdata
 
