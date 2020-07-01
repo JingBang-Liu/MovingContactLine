@@ -17,3 +17,4 @@ dimension 		3
 boundary		p p f	
 
 read_data 		test_atomdata
+

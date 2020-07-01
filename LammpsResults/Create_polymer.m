@@ -35,7 +35,7 @@ end
 line2=zeros(nn,1)+1;
 line3=zeros(nn,1)+1;
 m=0;
-npermole = 8;
+npermole = 4;
 nmole = nn/npermole;
 for i=1:nmole
     for j=1:npermole
@@ -61,7 +61,7 @@ line3=zeros(nbound,1);
 m=0;
 line3temp=1:nn;
 for i=1:nn
-    if mod(line3temp(i),8)~=0
+    if mod(line3temp(i),npermole)~=0
        m=m+1;
        line3(m)=line3temp(i);
     end
