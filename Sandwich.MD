@@ -33,11 +33,11 @@ mass                    1       12.0  ## atomic mass of platinum
 neighbor        	2.0 bin
 neigh_modify		every 1 delay 10 check yes
 ################### L-J potential #####################
-pair_style              lj/cut  5.5
+pair_style              lj/cut  8.75
 
 pair_coeff              1 1  0.0656 3.5 8.75
-pair_coeff              1 2  0.0656 3.5 8.75
-pair_coeff              2 2  0.05248 3.5 8.75
+pair_coeff              1 2  0.0328 3.5 8.75
+pair_coeff              2 2  0.0656 3.5 8.75
 #################### FENE bond #########################
 bond_style 		fene
 bond_coeff 		1 0.0655 4.9 0.0 0.0
@@ -74,7 +74,7 @@ fix            		extra ham print 1000 "$(step) $(temp) $(pe)" append iteration_i
 			screen no
 
 #restart     		100000 water.restart.mpiio
-dump			1 all custom 200 new_bond_sandwich.dat id type x y z
-run			200000
+dump			1 all custom 200 cutoff_bond_sandwich.dat id type x y z
+run			140000
 
 

@@ -36,11 +36,11 @@ neigh_modify		every 1 delay 1 check yes
 #pair_coeff	    	2 2  lj/cut 15.999 2.47 7.0
 #pair_coeff		1 2  lj/cut 0.9 2.8140 7.0
 ################### L-J potential #####################
-pair_style              lj/cut/opt  5.5
+pair_style              lj/cut/opt  8.75
 
 pair_coeff              1 1  0.0656 3.5  8.75
-pair_coeff              1 2  0.0656 3.5  8.75
-pair_coeff              2 2  0.05248 3.5  8.75
+pair_coeff              1 2  0.05248 3.5  8.75
+pair_coeff              2 2  0.0656 3.5  8.75
 ################### Harmonic potential ###################
 fix  			wall bread spring/self 5.355101
 
