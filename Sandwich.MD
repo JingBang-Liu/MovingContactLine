@@ -56,6 +56,7 @@ velocity                bread set 0.0 0.0 0.0
 compute 		myTemp ham temp
 fix			1 ham nvt temp ${T} ${T} 100.0
 fix_modify   		1 temp myTemp
+timestep 		${dt}
 
 run 			100
 
@@ -73,7 +74,7 @@ fix            		extra ham print 1000 "$(step) $(temp) $(pe)" append iteration_i
 			screen no
 
 #restart     		100000 water.restart.mpiio
-dump			1 all custom 200 longlong_bond_sandwich.dat id type x y z
-run			250000
+dump			1 all custom 200 new_bond_sandwich.dat id type x y z
+run			200000
 
 
