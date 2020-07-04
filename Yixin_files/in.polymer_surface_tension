@@ -1,0 +1,76 @@
+# 3-d LJ free film simulation
+
+dimension	3
+boundary	p p p
+variable    T equal 1
+atom_style	bond
+special_bonds   fene
+read_data   polymer-gamma-equ
+
+
+neighbor	0.3 bin
+neigh_modify	every 1 delay 0 check yes
+
+
+mass		1 1.0
+
+
+
+# LJ potentials
+
+bond_style  fene
+bond_coeff	1 12.2554 1.4 1 1 
+
+pair_style	lj/cut 2.5
+pair_coeff	1 1 1.0 1.0 2.5
+
+
+# initial velocities
+
+compute	     mobile all temp
+velocity     all create $T 482748 temp mobile
+
+fix	         1 all nvt temp $T $T 0.3
+fix_modify   1 temp mobile
+
+   
+
+compute     my_pres all pressure thermo_temp
+variable	my_surften equal lz*(c_my_pres[3]-(c_my_pres[1]+c_my_pres[2])/2.0)/2
+variable    my_pressure equal -(c_my_pres[1]+c_my_pres[2]+c_my_pres[3])/3
+fix          2 all ave/time  100 5000 500000 v_my_surften file polymer-surface-tension.txt mode scalar
+#fix          3 all ave/time  100 5000 500000 v_my_pressure file pressure_t0.7c2.5.txt mode scalar
+
+compute    mystr  all stress/atom mobile 
+compute        p all reduce sum c_mystr[1] c_mystr[2] c_mystr[3]
+variable       press equal -(c_p[1]+c_p[2]+c_p[3])/(3*vol)
+#fix          4 all ave/time  100 5000 500000 v_press file pressure_t0.7-2c2.5.txt mode scalar
+
+compute    mychu all chunk/atom bin/1d  z lower 0.05 units lattice
+ #fix        myave all ave/chunk  100 5000 500000 mychu c_mystr[1] c_mystr[2] c_mystr[3] norm none  file st_.txt
+fix        myden all ave/chunk  100 5000  500000 mychu density/number file polymer-den.txt
+
+
+
+
+
+
+
+
+# Run
+
+timestep	0.003
+thermo      500
+thermo_style    custom step temp pe ke etotal press v_press vol
+thermo_modify	temp mobile
+
+
+
+
+dump 		4 all custom 10000 dump.polymer_den_*.id mass type xs ys zs 
+
+
+
+run		2000000
+
+write_restart restart.surften_vlv
