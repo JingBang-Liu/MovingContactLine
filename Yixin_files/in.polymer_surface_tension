@@ -19,10 +19,15 @@ mass		1 1.0
 # LJ potentials
 
 bond_style  fene
-bond_coeff	1 12.2554 1.4 1 1 
+bond_coeff 	1 10.2478 1.4 1 1
+#bond_coeff	1 12.2554 1.4 1 1 
 
 pair_style	lj/cut 2.5
 pair_coeff	1 1 1.0 1.0 2.5
+
+#min_style 	fire
+#min_modify 	dmax 0.001
+#minimize 	1.0e-5 1.0e-7 200 10000
 
 
 # initial velocities

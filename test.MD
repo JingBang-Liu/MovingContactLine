@@ -3,9 +3,9 @@
 ############################################################
 #####	 	    Argon sandwich	   	   #########
 ############################################################
-variable		T equal 33.0
+variable		T equal 1.0
 variable 		V equal vol
-variable 		dt equal 5.0
+variable 		dt equal 0.002
 variable 		p equal 400
 variable 		s equal 5
 variable 		d equal $p*$s
@@ -16,7 +16,7 @@ variable 		A2m equal 1.0e-10
 variable 		fs2s equal 1.0e-15
 variable 		convert equal ${atm2Pa}*${atm2Pa}*${fs2s}*${A2m}*${A2m}*${A2m}
 
-units			real	
+units			lj	
 atom_style		bond
 special_bonds 		fene
 
@@ -29,20 +29,20 @@ read_data 		test_atomdata
 #####            Interaction Parameters               ######
 
 group  			ham    type 1
-mass  			1   12.0
-neighbor 		2.0 bin
+mass  			1   1.0
+neighbor 		0.3 bin
 neigh_modify 		every 1 delay 10 check yes
 
 ############################################################
 ####                  L-J Potential                    #####
 
-pair_style 		lj/cut   8.75
-pair_coeff 		1 1 0.0656 3.5 8.75
+pair_style 		lj/cut   2.5
+pair_coeff 		1 1 1.0 1.0 2.5
 ############################################################
 ####                  FENE Bond                        #####
 
 bond_style 		fene
-bond_coeff 		1 0.0655 4.9 0.0 0.0
+bond_coeff 		1 10.2478 1.4 1.0 1.0
 
 ############################################################
 ####                  Minimization                     #####

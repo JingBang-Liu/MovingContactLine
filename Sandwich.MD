@@ -40,7 +40,7 @@ pair_coeff              1 2  0.0328 3.5 8.75
 pair_coeff              2 2  0.0656 3.5 8.75
 #################### FENE bond #########################
 bond_style 		fene
-bond_coeff 		1 0.0655 4.9 0.0 0.0
+bond_coeff 		1 0.0655 4.9 0.0656 3.5
 #################### Harmonic potential ##################
 fix 			wall bread spring/self 5.355101
 
