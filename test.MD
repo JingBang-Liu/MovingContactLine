@@ -47,9 +47,9 @@ bond_coeff 		1 0.0655 4.9 0.0 0.0
 ############################################################
 ####                  Minimization                     #####
 
-thermo 			10
+thermo 			$d
 min_style 		fire
-min_modify 		dmax 0.2
+min_modify 		dmax 0.02
 minimize 		1.0e-5 1.0e-7 200 10000
 
 ############################################################
@@ -57,7 +57,7 @@ minimize 		1.0e-5 1.0e-7 200 10000
 
 velocity 		all create ${T} 12345 mom yes rot yes dist gaussian
 fix 			NVT all nvt temp $T $T 10
-run 			8000
+run 			150000
 
 ############################################################
 ####              Shear viscosity calculation          #####
@@ -73,6 +73,7 @@ variable 		v11 equal trap(f_SS[3])*${scale}
 variable 		v22 equal trap(f_SS[4])*${scale}
 variable 		v33 equal trap(f_SS[5])*${scale}
 thermo_style 		custom step temp press v_pxy v_pxz v_pyz v_v11 v_v22 v_v33
+dump 			1 all custom 500 test_bond_sandwich.dat id type x y z
 
 run 			200000
 variable 		v equal (v_v11+v_v22+v_v33)/3.0
