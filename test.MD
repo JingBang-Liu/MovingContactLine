@@ -14,7 +14,10 @@ variable 		kB equal 1.3806504e-23
 variable 		atm2Pa equal 101325.0
 variable 		A2m equal 1.0e-10
 variable 		fs2s equal 1.0e-15
-variable 		convert equal ${atm2Pa}*${atm2Pa}*${fs2s}*${A2m}*${A2m}*${A2m}
+variable 		epsilon equal ${kB}*$T
+variable 		sigma equal 3.5e-10
+variable 		tau equal 2.318e-12
+variable 		convert equal ${epsilon}*${tau}/${sigma}/${sigma}/${sigma}
 
 units			lj	
 atom_style		bond
@@ -68,10 +71,9 @@ variable 		pxz equal pxz
 variable 		pyz equal pyz
 fix 			SS all ave/correlate $s $p $d &
 			v_pxy v_pxz v_pyz type auto ave running
-variable 		scale equal ${convert}/(${kB}*$T)*$V*$s*${dt}
-variable 		v11 equal trap(f_SS[3])*${scale}
-variable 		v22 equal trap(f_SS[4])*${scale}
-variable 		v33 equal trap(f_SS[5])*${scale}
+variable 		v11 equal trap(f_SS[3])*${convert}
+variable 		v22 equal trap(f_SS[4])*${convert}
+variable 		v33 equal trap(f_SS[5])*${convert}
 thermo_style 		custom step temp press v_pxy v_pxz v_pyz v_v11 v_v22 v_v33
 dump 			1 all custom 500 test_bond_sandwich.dat id type x y z
 
