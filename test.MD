@@ -45,7 +45,7 @@ pair_coeff 		1 1 1.0 1.0 2.5
 ####                  FENE Bond                        #####
 
 bond_style 		fene
-bond_coeff 		1 10.2478 1.4 0.0 0.0
+bond_coeff 		1 10.2478 1.4 1.0 1.0
 
 ############################################################
 ####                  Minimization                     #####
@@ -106,7 +106,7 @@ variable 		v11 equal trap(f_SS[3])*${convert}
 variable 		v22 equal trap(f_SS[4])*${convert}
 variable 		v33 equal trap(f_SS[5])*${convert}
 thermo_style 		custom step temp press v_pxy v_pxz v_pyz v_v11 v_v22 v_v33
-dump 			1 all custom 500 test_bond_sandwich.dat id type x y z
+dump 			1 all custom 500 1test_bond_sandwich.dat id type x y z
 
 run 			50000
 variable 		v equal (v_v11+v_v22+v_v33)/3.0
