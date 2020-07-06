@@ -42,7 +42,7 @@ for k=0:1:zatoms-1
         end
     else
         for j=yatoms-1:-1:0
-            if mod(j,2) == 0
+            if mod(j,2) == 1
                 for i=0:1:xatoms-1
                     m=m+1;
                     posx(m)=liquid_start(1) + i*liquid_latt(1);
