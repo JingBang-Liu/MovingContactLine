@@ -5,15 +5,15 @@ clear all
 liquid_tol = 48840;
 liquid_dim = [248.25/3.5; 117.9/3.5; 86.46/3.5];
 yatoms = 37;
-zatoms = 3*11;
+zatoms = 3*8;
 xatoms=liquid_tol/yatoms/zatoms;
 liquid_latt = zeros(1,3);
-liquid_latt(1) = liquid_dim(1)/(xatoms-1);
-liquid_latt(2) = liquid_dim(2)/(yatoms-1);
-liquid_latt(3) = liquid_dim(3)/(zatoms-1);
+liquid_latt(1) = liquid_dim(1)/(xatoms);
+liquid_latt(2) = liquid_dim(2)/(yatoms);
+liquid_latt(3) = liquid_dim(3)/(zatoms);
 liquid_dim(1) = liquid_latt(1)*xatoms;
 %liquid_start = [250; 0; 3*3.93];
-liquid_start = [0.0; 0.0; 0.0];
+liquid_start = [liquid_latt(1)/2; liquid_latt(2)/2; liquid_latt(3)/2];
 
 % create and write positions
 m=0;
