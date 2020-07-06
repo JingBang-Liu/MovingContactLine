@@ -22,12 +22,41 @@ posx=zeros(nn,1);
 posy=zeros(nn,1);
 posz=zeros(nn,1);
 for k=0:1:zatoms-1
-    for j=0:1:yatoms-1
-        for i=0:1:xatoms-1
-            m=m+1;
-            posx(m)=liquid_start(1) + i*liquid_latt(1);
-            posy(m)=liquid_start(2) + j*liquid_latt(2);
-            posz(m)=liquid_start(3) + k*liquid_latt(3);
+    if mod(k,2) == 0
+        for j=0:1:yatoms-1
+            if mod(j,2) == 0
+                for i=0:1:xatoms-1
+                    m=m+1;
+                    posx(m)=liquid_start(1) + i*liquid_latt(1);
+                    posy(m)=liquid_start(2) + j*liquid_latt(2);
+                    posz(m)=liquid_start(3) + k*liquid_latt(3);
+                end
+            else
+                for i=xatoms-1:-1:0
+                    m=m+1;
+                    posx(m)=liquid_start(1) + i*liquid_latt(1);
+                    posy(m)=liquid_start(2) + j*liquid_latt(2);
+                    posz(m)=liquid_start(3) + k*liquid_latt(3);
+                end
+            end
+        end
+    else
+        for j=yatoms-1:-1:0
+            if mod(j,2) == 0
+                for i=0:1:xatoms-1
+                    m=m+1;
+                    posx(m)=liquid_start(1) + i*liquid_latt(1);
+                    posy(m)=liquid_start(2) + j*liquid_latt(2);
+                    posz(m)=liquid_start(3) + k*liquid_latt(3);
+                end
+            else
+                for i=xatoms-1:-1:0
+                    m=m+1;
+                    posx(m)=liquid_start(1) + i*liquid_latt(1);
+                    posy(m)=liquid_start(2) + j*liquid_latt(2);
+                    posz(m)=liquid_start(3) + k*liquid_latt(3);
+                end
+            end
         end
     end
 end
