@@ -52,9 +52,9 @@ bond_coeff 		1 10.2478 1.4 0.0 0.0
 
 thermo 			$d
 thermo_style 		custom step temp ke pe etotal press
-min_style 		fire
-min_modify 		dmax 0.02
-minimize 		1.0e-5 1.0e-7 200 10000
+#min_style 		fire
+#min_modify 		dmax 0.02
+#minimize 		1.0e-5 1.0e-7 200 10000
 
 ############################################################
 ####                  Equilibriation                   #####
@@ -89,7 +89,7 @@ undump 			1
 reset_timestep 		0
 velocity 		all create $T 293847 mom yes rot yes dist gaussian
 fix 			NVT all nvt temp $T $T 0.3
-fix_modify 		2 temp mobile
+#fix_modify 		NVT temp mobile
 fix 			30 all wall/reflect xhi EDGE
 fix 			300 all wall/reflect xlo EDGE
 fix 			40 all wall/reflect yhi EDGE
@@ -108,7 +108,7 @@ variable 		v33 equal trap(f_SS[5])*${convert}
 thermo_style 		custom step temp press v_pxy v_pxz v_pyz v_v11 v_v22 v_v33
 dump 			1 all custom 500 test_bond_sandwich.dat id type x y z
 
-run 			10000
+run 			50000
 variable 		v equal (v_v11+v_v22+v_v33)/3.0
 variable 		ndens equal count(all)/vol
 print 			"average viscosity: $v [Pa.s] @ $T K, ${ndens} /A^3"

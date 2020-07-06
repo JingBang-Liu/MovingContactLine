@@ -1,0 +1,258 @@
+LAMMPS (3 Mar 2020)
+  using 8 OpenMP thread(s) per MPI task
+## binning x:130-500, y:0.0-121.83, z:11.79-98.0
+
+############################################################
+#####	 	    Argon sandwich	   	   #########
+############################################################
+variable		T equal 1.0
+variable 		V equal vol
+variable 		dt equal 0.002
+variable 		p equal 400
+variable 		s equal 5
+variable 		d equal $p*$s
+variable 		d equal 400*$s
+variable 		d equal 400*5
+
+variable 		kB equal 1.3806504e-23
+variable 		atm2Pa equal 101325.0
+variable 		A2m equal 1.0e-10
+variable 		fs2s equal 1.0e-15
+variable 		epsilon equal ${kB}*$T
+variable 		epsilon equal 1.3806504e-23*$T
+variable 		epsilon equal 1.3806504e-23*1
+variable 		sigma equal 3.5e-10
+variable 		tau equal 2.318e-12
+variable 		convert equal ${epsilon}*${tau}/${sigma}/${sigma}/${sigma}
+variable 		convert equal 1.3806504e-23*${tau}/${sigma}/${sigma}/${sigma}
+variable 		convert equal 1.3806504e-23*2.318e-12/${sigma}/${sigma}/${sigma}
+variable 		convert equal 1.3806504e-23*2.318e-12/3.5e-10/${sigma}/${sigma}
+variable 		convert equal 1.3806504e-23*2.318e-12/3.5e-10/3.5e-10/${sigma}
+variable 		convert equal 1.3806504e-23*2.318e-12/3.5e-10/3.5e-10/3.5e-10
+
+units			lj
+atom_style		bond
+special_bonds 		fene
+
+dimension 		3
+boundary		f f f
+
+read_data 		test_atomdata
+  orthogonal box = (0 0 0) to (71 33.7 24.8)
+  4 by 1 by 1 MPI processor grid
+  reading atoms ...
+  48840 atoms
+  scanning bonds ...
+  1 = max bonds/atom
+  reading bonds ...
+  42735 bonds
+  2 = max # of 1-2 neighbors
+  2 = max # of special neighbors
+  special bonds CPU = 0.00440907 secs
+  read_data CPU = 0.121266 secs
+
+############################################################
+#####            Interaction Parameters               ######
+
+group  			ham    type 1
+48840 atoms in group ham
+mass  			1   1.0
+neighbor 		0.3 bin
+neigh_modify 		every 1 delay 10 check yes
+
+############################################################
+####                  L-J Potential                    #####
+
+pair_style 		lj/cut   2.5
+pair_coeff 		1 1 1.0 1.0 2.5
+############################################################
+####                  FENE Bond                        #####
+
+bond_style 		fene
+bond_coeff 		1 10.2478 1.4 0.0 0.0
+
+############################################################
+####                  Minimization                     #####
+
+thermo 			$d
+thermo 			2000
+thermo_style 		custom step temp ke pe etotal press
+#min_style 		fire
+#min_modify 		dmax 0.02
+#minimize 		1.0e-5 1.0e-7 200 10000
+
+############################################################
+####                  Equilibriation                   #####
+
+velocity 		all create ${T} 12345 mom yes rot yes dist gaussian
+velocity 		all create 1 12345 mom yes rot yes dist gaussian
+fix 			NVE all nve/limit 0.05
+fix 			2 all langevin 1 1 10 100000
+fix 			30 all wall/reflect xhi EDGE
+fix 			300 all wall/reflect xlo EDGE
+fix 			40 all wall/reflect yhi EDGE
+fix 			400 all wall/reflect ylo EDGE
+fix 			50 all wall/reflect zhi EDGE
+fix 			500 all wall/reflect zlo EDGE
+
+timestep 		0.002
+dump 			1 all custom 100 test_equ_equ.dat id type x y z
+run 			2000
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 2.8
+  ghost atom cutoff = 2.8
+  binsize = 1.4, bins = 51 25 18
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton
+      stencil: half/bin/3d/newton
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 14.38 | 14.4 | 14.41 Mbytes
+Step Temp KinEng PotEng TotEng Press 
+       0            1    1.4999693    18.333682    19.833651    1.7855651 
+    2000    6.4047678     9.606955    1.3943565    11.001312    5.1163394 
+Loop time of 422.785 on 32 procs for 2000 steps with 48840 atoms
+
+Performance: 817.437 tau/day, 4.731 timesteps/s
+65.5% CPU use with 4 MPI tasks x 8 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 10.332     | 18.502     | 36.341     | 241.6 |  4.38
+Bond    | 1.0185     | 99.101     | 283.94     |1129.2 | 23.44
+Neigh   | 11.683     | 11.789     | 11.843     |   1.9 |  2.79
+Comm    | 74.532     | 276.77     | 396.17     | 753.9 | 65.46
+Output  | 1.7149     | 3.0906     | 5.7337     |  89.3 |  0.73
+Modify  | 1.3742     | 2.206      | 3.8103     |  63.9 |  0.52
+Other   |            | 11.32      |            |       |  2.68
+
+Nlocal:    12210 ave 12309 max 12140 min
+Histogram: 1 1 0 0 0 1 0 0 0 1
+Nghost:    2801.25 ave 3770 max 1841 min
+Histogram: 2 0 0 0 0 0 0 0 0 2
+Neighs:    408345 ave 421013 max 396091 min
+Histogram: 1 0 1 0 0 0 0 1 0 1
+
+Total # of neighbors = 1633379
+Ave neighs/atom = 33.4435
+Ave special neighs/atom = 1.75
+Neighbor list builds = 199
+Dangerous builds = 197
+
+unfix 			NVE
+unfix 			2
+unfix 			30
+unfix 			300
+unfix 			40
+unfix 			400
+unfix 			50
+unfix 			500
+undump 			1
+
+############################################################
+####              Shear viscosity calculation          #####
+
+reset_timestep 		0
+velocity 		all create $T 293847 mom yes rot yes dist gaussian
+velocity 		all create 1 293847 mom yes rot yes dist gaussian
+fix 			NVT all nvt temp $T $T 0.3
+fix 			NVT all nvt temp 1 $T 0.3
+fix 			NVT all nvt temp 1 1 0.3
+#fix_modify 		NVT temp mobile
+fix 			30 all wall/reflect xhi EDGE
+fix 			300 all wall/reflect xlo EDGE
+fix 			40 all wall/reflect yhi EDGE
+fix 			400 all wall/reflect ylo EDGE
+fix 			50 all wall/reflect zhi EDGE
+fix 			500 all wall/reflect zlo EDGE
+
+variable 		pxy equal pxy
+variable 		pxz equal pxz
+variable 		pyz equal pyz
+fix 			SS all ave/correlate $s $p $d 			v_pxy v_pxz v_pyz type auto ave running
+fix 			SS all ave/correlate 5 $p $d 			v_pxy v_pxz v_pyz type auto ave running
+fix 			SS all ave/correlate 5 400 $d 			v_pxy v_pxz v_pyz type auto ave running
+fix 			SS all ave/correlate 5 400 2000 			v_pxy v_pxz v_pyz type auto ave running
+variable 		v11 equal trap(f_SS[3])*${convert}
+variable 		v11 equal trap(f_SS[3])*7.46436764361516e-07
+variable 		v22 equal trap(f_SS[4])*${convert}
+variable 		v22 equal trap(f_SS[4])*7.46436764361516e-07
+variable 		v33 equal trap(f_SS[5])*${convert}
+variable 		v33 equal trap(f_SS[5])*7.46436764361516e-07
+thermo_style 		custom step temp press v_pxy v_pxz v_pyz v_v11 v_v22 v_v33
+dump 			1 all custom 500 test_bond_sandwich.dat id type x y z
+
+run 			50000
+Per MPI rank memory allocation (min/avg/max) = 14.38 | 14.39 | 14.41 Mbytes
+Step Temp Press v_pxy v_pxz v_pyz v_v11 v_v22 v_v33 
+       0            1   0.66793896 -0.0038048542 -0.016862256 -0.0053599625 5.4030509e-12 1.0611931e-10 1.0722265e-11 
+    2000    1.2223823  -0.69094445 0.0093959008  0.017801062 0.0016623768 -1.5163709e-08 -7.9214554e-09 2.9462574e-09 
+    4000    0.9996955   0.18902397 -0.013494702  -0.02276859 -0.0075869877 1.0663432e-08 -3.0456768e-09 1.2645623e-09 
+    6000     0.995786  0.013699687 -0.032859633 -0.022994889   0.09520334 7.2244978e-09 -9.7934038e-10 1.9062265e-08 
+    8000    1.0023924   0.11235747 -0.0027087024  0.013654431  0.002236272 1.2173584e-08 1.7634687e-08 2.4907852e-08 
+   10000   0.99928563  0.019397897  0.048217817 -0.026139606 -0.047165913 1.6967689e-08 1.1049442e-08 1.7629169e-08 
+   12000   0.99935268 -0.010270601 -0.0045803308 0.0047540608  0.074285536 2.3559094e-08 7.8327252e-09 1.4943622e-08 
+   14000    1.0009874  -0.01789034 0.0096847934 -0.0044915499 0.0094549347 2.3312805e-08 6.1282734e-09 1.2984709e-08 
+   16000    1.0003473 0.0053450163  0.028240385 -0.0060192434  0.036781615 2.3669309e-08 8.9832866e-09 1.0668296e-08 
+   18000    0.9964954 -0.015967729 -0.0049163693 -0.015942552  0.003440876 1.9840851e-08 9.320988e-09 9.7164682e-09 
+   20000    1.0012519 -0.026684402  0.012107811  -0.02683235  0.023765747 1.7925604e-08 7.7493075e-09 9.7987262e-09 
+   22000    1.0030382 -0.0031787281  0.021736976  0.011129752 -0.064008619 1.7554157e-08 6.7744722e-09 8.2585271e-09 
+   24000   0.99778309 0.0019696221 -0.033377614  0.004030933 -0.013030906 1.5186585e-08 5.6459239e-09 8.6594497e-09 
+   26000   0.99574365 -0.070727352 -0.013488963 -0.042094174  0.010238972 1.3928718e-08 5.9475922e-09 6.8244886e-09 
+   28000    1.0018407  0.061227423 -0.018320317 -0.019987344  0.022260866 1.5080717e-08 4.9599723e-09 6.4944586e-09 
+   30000   0.99716131  0.056212836 -0.0055124431 -0.025465317  -0.01166412 1.5735722e-08 5.001193e-09 5.423974e-09 
+   32000    1.0040837   0.02594351 0.0013530425 -0.0056015362 -0.012483428 1.4398887e-08 4.4566106e-09 4.7982017e-09 
+   34000    1.0069527 -0.016059633 -0.033444114 -0.023186002 -0.034657937 1.4373679e-08 5.0051825e-09 4.4254838e-09 
+   36000     1.005949 -0.016367041 -0.015225266  0.012498143  0.063438324 1.3744045e-08 6.1924914e-09 3.8727537e-09 
+   38000   0.99920661  0.039063165  0.022812351 -0.023778877  0.021741276 1.452419e-08 9.7147782e-09 3.2966952e-09 
+   40000   0.99975742 0.0036665426  0.016989538 -0.034045979  0.013856386 1.6008142e-08 7.0678118e-09 2.598705e-09 
+   42000   0.99677463  0.031695584 -0.0090744043  0.013828427  0.020316099 1.5760932e-08 2.8985688e-09 2.3397283e-09 
+   44000    1.0000464  0.022924832 0.0034877737  -0.02756289 -0.013003309 1.5131459e-08 2.561871e-09 1.953422e-09 
+   46000   0.99957389   0.03239332 -0.047752972  0.011416521  0.010958302 1.4262042e-08 2.4539501e-09 1.2652218e-09 
+   48000   0.99409787 -0.095274342 -0.0044699584 -0.018635258 -0.00060242281 1.3816557e-08 2.4521956e-09 1.2804048e-09 
+   50000   0.99530963 -0.016421163 0.0077924018  0.015703986  0.023273097 1.3932103e-08 2.6572419e-09 1.2786671e-09 
+Loop time of 1021.32 on 32 procs for 50000 steps with 48840 atoms
+
+Performance: 8459.638 tau/day, 48.956 timesteps/s
+91.5% CPU use with 4 MPI tasks x 8 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 400.75     | 548.74     | 734.2      | 510.3 | 53.73
+Bond    | 6.8327     | 8.9718     | 11.987     |  62.6 |  0.88
+Neigh   | 121.11     | 123.49     | 124.42     |  12.4 | 12.09
+Comm    | 93.294     | 219.84     | 291.68     | 544.5 | 21.52
+Output  | 3.7541     | 4.7441     | 5.7969     |  36.0 |  0.46
+Modify  | 49.913     | 109.75     | 270.84     | 889.3 | 10.75
+Other   |            | 5.783      |            |       |  0.57
+
+Nlocal:    12210 ave 14146 max 10313 min
+Histogram: 2 0 0 0 0 0 0 0 0 2
+Nghost:    3354 ave 4520 max 2219 min
+Histogram: 2 0 0 0 0 0 0 0 0 2
+Neighs:    883601 ave 1.04073e+06 max 724254 min
+Histogram: 2 0 0 0 0 0 0 0 0 2
+
+Total # of neighbors = 3534404
+Ave neighs/atom = 72.367
+Ave special neighs/atom = 1.75
+Neighbor list builds = 3253
+Dangerous builds = 31
+variable 		v equal (v_v11+v_v22+v_v33)/3.0
+variable 		ndens equal count(all)/vol
+print 			"average viscosity: $v [Pa.s] @ $T K, ${ndens} /A^3"
+average viscosity: 5.95600383864669e-09 [Pa.s] @ 1 K, 0.823068014673665 /A^3
+
+
+
+
+
+
+
+
+Total wall time: 0:24:04
