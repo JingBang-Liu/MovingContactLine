@@ -1,15 +1,14 @@
-## binning x:130-500, y:0.0-121.83, z:11.79-98.0 
+## binning x:60-160, y:0.0-34.4, z:2.8-29.0 
+## binning x:60-90 x:120-150
 
 ############################################################
 #####	 	    Argon sandwich	   	   #########
 ############################################################
-variable		T equal 33.0
+variable		T equal 1.0
 variable 		V equal vol
-variable 		dt equal 5.0
-variable 		epsilon equal 0.0656
-variable 		sigma equal 3.5
+variable 		dt equal 0.002
 
-units			real	
+units			lj	
 atom_style		bond
 special_bonds 		fene
 
@@ -27,54 +26,79 @@ read_data 		bond_atomdata
 group                   bread     type 2
 group                   ham       type 1
 
-mass                    2       12.0  ## atomic mass of platinum
-mass                    1       12.0  ## atomic mass of platinum
+mass                    2       1.0  ## atomic mass of platinum
+mass                    1       1.0  ## atomic mass of platinum
 
-neighbor        	2.0 bin
+neighbor        	0.3 bin
 neigh_modify		every 1 delay 10 check yes
 ################### L-J potential #####################
-pair_style              lj/cut  8.75
+pair_style              lj/cut  2.5
 
-pair_coeff              1 1  0.0656 3.5 8.75
-pair_coeff              1 2  0.0328 3.5 8.75
-pair_coeff              2 2  0.0656 3.5 8.75
+pair_coeff              1 1  1.0 1.0 2.5
+pair_coeff              1 2  0.8 1.0 2.5
+pair_coeff              2 2  1.0 1.0 2.5
 #################### FENE bond #########################
 bond_style 		fene
-bond_coeff 		1 0.0655 4.9 0.0656 3.5
+bond_coeff 		1 10.2478 1.4 1.0 1.0
 #################### Harmonic potential ##################
-fix 			wall bread spring/self 5.355101
+fix 			wall bread spring/self 10000.0
 
 thermo 			10
 min_style 		fire
 min_modify 		dmax 0.01
-minimize 		1.0e-5 1.0e-7 200 10000
+minimize 		1.0e-5 1.0e-7 500 10000
 
 ############################################################	
 #############EQUILIBRATION PARAMETERS######################
-velocity 		ham create ${T} 12345
-velocity                bread set 0.0 0.0 0.0
-compute 		myTemp ham temp
-fix			1 ham nvt temp ${T} ${T} 100.0
-fix_modify   		1 temp myTemp
+velocity 		all create ${T} 12345
+compute 		myTemp all temp
+fix			1 all nvt temp ${T} ${T} 100.0
+fix 			2 all langevin 1 1 10 100000
+fix 			30 all wall/reflect zhi EDGE
+fix 			300 all wall/reflect zlo EDGE
 timestep 		${dt}
+thermo 			100
 
-run 			100
+dump 			1 all custom 100 ssmall_equ_cutoff_bond_sandwich.dat id type x y z
+run 			40000
 
+unfix 			1
+unfix 			2
+unfix 			30
+unfix 			300
+undump 			1
 ###########################################################
 ############### Post parameters############################
 reset_timestep  	0
-compute 		bins ham chunk/atom bin/3d x 130.0 4 y 0.0 4.08 z 11.79 4.312 bound &
-			x 130.0 500.0 bound y 0.0 121.83 bound z 11.79 98.0
-fix  			d ham ave/chunk 1 1 10 bins density/number norm sample &
-			file bond_bins_dens.dat
+velocity 		all create $T 293849 mom yes rot yes dist gaussian
+fix 			1 all nvt temp $T $T 0.3
+fix_modify 		1 temp myTemp
+fix 			30 all wall/reflect zhi EDGE
+fix 			300 all wall/reflect zlo EDGE
+
+#compute 		bins ham chunk/atom bin/3d x 60.0 1.149 y 0.0 1.143 z 2.8 1.1391 bound &
+#			x 60.0 160.0 bound y 0.0 34.4 bound z 2.8 29.0
+#fix  			d ham ave/chunk 2 5 10 bins density/number norm sample &
+#			file small_bond_bins_dens.dat
+
+compute 		bins1 ham chunk/atom bin/3d x 60.0 1 y 0.0 1.1467 z 2.8 1.1392 bound &
+			x 60.0 90.0 bound y 0.0 34.4 bound z 2.8 29.0
+fix  			d1 ham ave/chunk 2 5 10 bins1 density/number norm sample &
+			file left_small_bond_bins_dens.dat
+
+compute 		bins2 ham chunk/atom bin/3d x 120.0 1 y 0.0 1.1467 z 2.8 1.1392 bound &
+			x 120.0 150.0 bound y 0.0 34.4 bound z 2.8 29.0
+fix  			d2 ham ave/chunk 2 5 10 bins2 density/number norm sample &
+			file right_small_bond_bins_dens.dat
+
 thermo_style    	custom step temp pe etotal 
 thermo_modify	        temp myTemp
 thermo			100
-fix            		extra ham print 1000 "$(step) $(temp) $(pe)" append iteration_info.dat &
-			screen no
+#fix            		extra ham print 1000 "$(step) $(temp) $(pe)" append iteration_info.dat &
+#			screen no
 
 #restart     		100000 water.restart.mpiio
-dump			1 all custom 200 cutoff_bond_sandwich.dat id type x y z
-run			140000
+dump			1 all custom 200 ssmall_cutoff_bond_sandwich.dat id type x y z
+run			100000
 
 

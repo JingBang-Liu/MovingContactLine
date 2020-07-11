@@ -8,3 +8,7 @@ exec
 *.mat
 *.avi
 *.m~
+ContactLine.ipynb
+.ipynb_checkpoints/ContactLine-checkpoints.ipynb
+left_bins.npy
+right_bins.npy
