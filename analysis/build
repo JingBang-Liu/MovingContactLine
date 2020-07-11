@@ -1,0 +1,14 @@
+#!/bin/bash
+
+myprogramfiles="kinds.f90 dictionary.f90 my_read_write.f90 write_netcdf.f90 analysis.f90 main.f90"
+
+outfile="exec"
+
+fc=gfortran
+
+fflags=`nf-config --fflags`
+flibs=`nf-config --flibs`
+
+$fc -g -std=f2003 -Wall $fflags $myprogramfiles $flibs -o $outfile
+
+rm *.mod
