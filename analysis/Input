@@ -1,8 +1,8 @@
 /*********** data file information ****************
-'../LammpsResults/sandwich.dat'     ! file name
+'../LammpsResults/equ_cutoff_bond_sandwich.dat'     ! file name
 xyz                   ! data type
 9                     ! header
-179040                     ! number of particles
+81390                     ! number of particles
 500                   ! output_gap
 /*************** analysis params ****************
 18.0                   ! radius cutoff for density
