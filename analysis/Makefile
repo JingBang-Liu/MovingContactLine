@@ -20,7 +20,7 @@ LDFLAGS=-lgcc $(shell nf-config --flibs)
 
 BASICS=kinds.o dictionary.o
 
-OBJECTS=my_read_write.o analysis.o\
+OBJECTS=my_read_write.o analysis.o write_netcdf.o\
 #	comms.o write_netcdf.o integrators.o \
 #	simulation.o 
 

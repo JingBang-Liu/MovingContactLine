@@ -4,6 +4,7 @@ PROGRAM main
   USE dictionary
   USE my_read_write
   USE analysis
+  USE write_netcdf
 
   IMPLICIT NONE
   
@@ -15,18 +16,20 @@ PROGRAM main
   CALL cpu_time(T2)
   PRINT*, "read_data takes ", T2-T1
 
-  CALL cpu_time(T1)
-  CALL trim_data
-  CALL cpu_time(T2)
-  PRINT*, "trim_data takes ", T2-T1
+  CALL write_bins("bins.nc")
+
+  !CALL cpu_time(T1)
+  !CALL trim_data
+  !CALL cpu_time(T2)
+  !PRINT*, "trim_data takes ", T2-T1
 
   !CALL write_pos_1_Duncan
 
-  CALL cpu_time(T1)
-  CALL binning_1
-  CALL cpu_time(T2)
-  PRINT*, "binning_1 takes ", T2-T1
-  CALL write_one_contactline
+  !CALL cpu_time(T1)
+  !CALL binning_1
+  !CALL cpu_time(T2)
+  !PRINT*, "binning_1 takes ", T2-T1
+  !CALL write_one_contactline
   
   !CALL cpu_time(T1)
   !CALL calc_dens_1(radius_tol)

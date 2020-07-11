@@ -76,9 +76,11 @@ MODULE my_read_write
   SUBROUTINE read_data
 
   CALL count_lines(filename)
-  CALL count_types(filename)
   IF (data_type == 'xyz') THEN
+    CALL count_types(filename)
     CALL read_xyz(filename)
+  ELSE IF (data_type == 'bins') THEN
+    CALL read_bins(filename)
   ENDIF
   END SUBROUTINE
 
@@ -184,6 +186,37 @@ MODULE my_read_write
       END DO
     END DO
     CLOSE(1)
+  END SUBROUTINE
+
+  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  !!!! Subroutine to read bins data !!!!!!!!!!!!!!!!!!!!!!!
+  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  SUBROUTINE read_bins(filename)
+    CHARACTER(len=*), INTENT(IN) :: filename
+    INTEGER :: i, k, block, tempZ, tempY, tempX
+    INTEGER :: first
+    REAL(REAL64) :: second, third, fourth, fifth, sixth
+
+    ALLOCATE(bins(time_marks,nbin_x,nbin_y,nbin_z))
+    block = nbin_x*nbin_y*nbin_z
+    block = block + 1
+    OPEN(1, file = filename)
+    DO i=1,3
+      READ(1,*)
+    END DO
+    DO k = 1, time_marks
+      READ(1,*)
+      DO i = 1, block
+        tempZ = INT(MOD(i-1,nbin_z) + 1)
+        tempY = INT(MOD(INT((i-tempZ)/nbin_z),nbin_y) + 1)
+        tempX = INT((i-tempZ-nbin_y*(tempY-1))/nbin_z/nbin_y + 1)
+        READ(1,*) first, second, third, fourth, fifth, sixth
+        bins(k,tempX,tempY,tempZ) = fifth
+      END DO
+    END DO
+
+    CLOSE(1)
+
   END SUBROUTINE
   
   SUBROUTINE read_dens_1
