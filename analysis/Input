@@ -1,14 +1,15 @@
 /*********** data file information ****************
-'../LammpsResults/equ_cutoff_bond_sandwich.dat'     ! file name
-xyz                   ! data type
+'../left_small_bond_bins_dens.dat'     ! file name
+'left_bins_new.nc'         ! netcdf file name
+bins                   ! data type
 9                     ! header
 81390                     ! number of particles
 500                   ! output_gap
 /*************** analysis params ****************
 18.0                   ! radius cutoff for density
-92                    ! number of bins in x direction
+30                    ! number of bins in x direction
 30                    ! number of bins in y direction
-21                    ! number of bins in z direction
+23                    ! number of bins in z direction
 0.5                   ! tol_1(1), tol_min
 0.8                   ! tol_1(2), tol_max
 1.5                   ! tol_1_all(1), tol_all_min
@@ -19,6 +20,7 @@ xyz                   ! data type
 121.83                ! YB(2)
 11.79                 ! ZB(1)
 98.0                  ! ZB(2)
+10350500003  	      ! n_lines
 /*****************test***************************
 1 2 3 4               ! test read
 /**************** end **********************

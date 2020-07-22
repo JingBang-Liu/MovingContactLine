@@ -14,10 +14,12 @@ MODULE my_read_write
   SUBROUTINE read_input
     REAL(REAL32) :: temp, test_1, test_2
     
+    PRINT*, "READ INPUT STARTED"
     OPEN(1, FILE = 'Input')
     !/*********** file variables ***********
     READ(1,*)
     READ(1,*) filename
+    READ(1,*) filename_bins
     READ(1,*) data_type
     READ(1,*) n_header
     READ(1,*) n_particle
@@ -38,6 +40,7 @@ MODULE my_read_write
     READ(1,*) YB(2)
     READ(1,*) ZB(1)
     READ(1,*) ZB(2)
+    READ(1,*) n_lines
     !/************** test *****************
     READ(1,*)
     READ(1,*) test_1, test_2
@@ -49,6 +52,7 @@ MODULE my_read_write
       STOP
     ENDIF
     CLOSE(1)
+    PRINT*, "READ INPUT FINISHED"
   END SUBROUTINE
 
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -58,6 +62,7 @@ MODULE my_read_write
   CHARACTER(LEN=*), INTENT(IN) :: filename
   INTEGER :: io
 
+  PRINT*, "COUNT LINES STARTED"
   OPEN(1,file=filename, iostat=io, status='old')
   IF (io/=0) STOP 'Cannot open file!'
 
@@ -68,6 +73,7 @@ MODULE my_read_write
     n_lines = n_lines + 1
   END DO
   CLOSE(1)
+  PRINT*, "FILE HAS ", n_lines, " LINES "
   END SUBROUTINE
 
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -75,13 +81,17 @@ MODULE my_read_write
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   SUBROUTINE read_data
 
-  CALL count_lines(filename)
+  PRINT*, "STARTED READING DATA from file ", filename
+  !CALL count_lines(filename)
+  !n_lines = 1035050003
+  !n_lines = (30*30*23+1)*500 + 3
   IF (data_type == 'xyz') THEN
     CALL count_types(filename)
     CALL read_xyz(filename)
   ELSE IF (data_type == 'bins') THEN
     CALL read_bins(filename)
   ENDIF
+  PRINT*, "FINISHED READING DATA from file ", filename
   END SUBROUTINE
 
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -195,11 +205,12 @@ MODULE my_read_write
     CHARACTER(len=*), INTENT(IN) :: filename
     INTEGER :: i, k, block, tempZ, tempY, tempX
     INTEGER :: first
-    REAL(REAL64) :: second, third, fourth, fifth, sixth
+    REAL(REAL32) :: second, third, fourth, fifth, sixth
 
+    block = nbin_x*nbin_y*nbin_z + 1
+    time_marks = int((n_lines-3)/(block))
+    block = block - 1
     ALLOCATE(bins(time_marks,nbin_x,nbin_y,nbin_z))
-    block = nbin_x*nbin_y*nbin_z
-    block = block + 1
     OPEN(1, file = filename)
     DO i=1,3
       READ(1,*)

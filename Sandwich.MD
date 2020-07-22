@@ -59,8 +59,8 @@ fix 			300 all wall/reflect zlo EDGE
 timestep 		${dt}
 thermo 			100
 
-dump 			1 all custom 100 ssmall_equ_cutoff_bond_sandwich.dat id type x y z
-run 			40000
+dump 			1 all custom 1000 equ_cutoff_bond_sandwich.dat id type x y z
+run 			400000
 
 unfix 			1
 unfix 			2
@@ -83,12 +83,12 @@ fix 			300 all wall/reflect zlo EDGE
 
 compute 		bins1 ham chunk/atom bin/3d x 60.0 1 y 0.0 1.1467 z 2.8 1.1392 bound &
 			x 60.0 90.0 bound y 0.0 34.4 bound z 2.8 29.0
-fix  			d1 ham ave/chunk 2 5 10 bins1 density/number norm sample &
+fix  			d1 ham ave/chunk 2 5 40 bins1 density/number norm sample &
 			file left_small_bond_bins_dens.dat
 
 compute 		bins2 ham chunk/atom bin/3d x 120.0 1 y 0.0 1.1467 z 2.8 1.1392 bound &
 			x 120.0 150.0 bound y 0.0 34.4 bound z 2.8 29.0
-fix  			d2 ham ave/chunk 2 5 10 bins2 density/number norm sample &
+fix  			d2 ham ave/chunk 2 5 40 bins2 density/number norm sample &
 			file right_small_bond_bins_dens.dat
 
 thermo_style    	custom step temp pe etotal 
@@ -98,7 +98,7 @@ thermo			100
 #			screen no
 
 #restart     		100000 water.restart.mpiio
-dump			1 all custom 200 ssmall_cutoff_bond_sandwich.dat id type x y z
-run			100000
+dump			1 all custom 2000 cutoff_bond_sandwich.dat id type x y z
+run			20000000
 
 

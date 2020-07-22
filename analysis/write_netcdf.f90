@@ -8,9 +8,9 @@ MODULE write_netcdf
 
   CONTAINS
 
-  SUBROUTINE write_bins(filename_bins)
+  SUBROUTINE write_bins
     ! output file name
-    CHARACTER(LEN=*), INTENT(IN) :: filename_bins
+    !CHARACTER(LEN=*), INTENT(IN) :: filename_bins
     ! number of dimensions to write
     INTEGER, PARAMETER :: ndims = 4
     ! name for dimensions
@@ -26,6 +26,7 @@ MODULE write_netcdf
     ! for loop
     INTEGER :: i, ierr
     
+    PRINT*, "START WRITING BINS DATA INTO ", filename_bins
     ! shape of bins
     sizes_bins = SHAPE(bins)
 
@@ -89,6 +90,8 @@ MODULE write_netcdf
       PRINT*, TRIM(nf90_strerror(ierr))
       RETURN
     END IF
+
+    PRINT*, "FINISHED WRITING BINS DATA INTO ", filename_bins
   END SUBROUTINE
 
   SUBROUTINE check(stat)

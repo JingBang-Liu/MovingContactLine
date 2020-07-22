@@ -16,7 +16,10 @@ PROGRAM main
   CALL cpu_time(T2)
   PRINT*, "read_data takes ", T2-T1
 
-  CALL write_bins("bins.nc")
+  CALL cpu_time(T1)
+  CALL write_bins
+  CALL cpu_time(T2)
+  PRINT*, "write netcdf takes", T2-T1
 
   !CALL cpu_time(T1)
   !CALL trim_data
