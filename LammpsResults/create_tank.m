@@ -11,7 +11,7 @@ liquid_latt(1) = 1.0651;
 liquid_latt(2) = 1.0651;
 liquid_latt(3) = 1.0651;
 liquid_dim = [xatoms*liquid_latt(1); yatoms*liquid_latt(2); zatoms*liquid_latt(3)];
-liquid_start = [3*3.93/3.5+liquid_latt(1)/2; liquid_latt(2)/2; 3*3.93/3.5];
+liquid_start = [3*3.93/3.5+liquid_latt(1)/3; liquid_latt(2)/2; 3*3.93/3.5];
 
 % create and write positions
 m=0;
