@@ -13,9 +13,9 @@ atom_style		bond
 special_bonds 		fene
 
 dimension 		3	
-boundary		p p f	
+boundary		f p f	
 
-read_data         	atomdata_tank
+read_data         	tank_atomdata
 #read_restart 		water.restart.mpiio
 
 ############################################################	
@@ -53,16 +53,20 @@ fix			1 all nvt temp ${T} ${T} 100.0
 fix 			2 all langevin 1 1 10 100000
 fix 			30 all wall/reflect zhi EDGE
 fix 			300 all wall/reflect zlo EDGE
+fix 			40 all wall/reflect xhi EDGE
+fix 			400 all wall/reflect xlo EDGE
 timestep 		${dt}
 thermo 			100
 
-dump 			1 all custom 1000 equ_cutoff_bond_sandwich.dat id type x y z
-run 			400000
+dump 			1 all custom 200 equ_tank.dat id type x y z
+run 			50000
 
 unfix 			1
 unfix 			2
 unfix 			30
 unfix 			300
+unfix 			40
+unfix 			400
 undump 			1
 ###########################################################
 ############### Post parameters############################
@@ -72,21 +76,23 @@ fix 			1 all nvt temp $T $T 0.3
 fix_modify 		1 temp myTemp
 fix 			30 all wall/reflect zhi EDGE
 fix 			300 all wall/reflect zlo EDGE
+fix 			40 all wall/reflect xhi EDGE
+fix 			400 all wall/reflect xlo EDGE
 
 #compute 		bins ham chunk/atom bin/3d x 60.0 1.149 y 0.0 1.143 z 2.8 1.1391 bound &
 #			x 60.0 160.0 bound y 0.0 34.4 bound z 2.8 29.0
 #fix  			d ham ave/chunk 2 5 10 bins density/number norm sample &
 #			file small_bond_bins_dens.dat
 
-compute 		bins1 ham chunk/atom bin/3d x 60.0 1 y 0.0 1.1467 z 2.8 1.1392 bound &
-			x 60.0 90.0 bound y 0.0 34.4 bound z 2.8 29.0
-fix  			d1 ham ave/chunk 2 5 40 bins1 density/number norm sample &
-			file left_small_bond_bins_dens.dat
+#compute 		bins1 ham chunk/atom bin/3d x 60.0 1 y 0.0 1.1467 z 2.8 1.1392 bound &
+#			x 60.0 90.0 bound y 0.0 34.4 bound z 2.8 29.0
+#fix  			d1 ham ave/chunk 2 5 40 bins1 density/number norm sample &
+#			file left_small_bond_bins_dens.dat
 
-compute 		bins2 ham chunk/atom bin/3d x 120.0 1 y 0.0 1.1467 z 2.8 1.1392 bound &
-			x 120.0 150.0 bound y 0.0 34.4 bound z 2.8 29.0
-fix  			d2 ham ave/chunk 2 5 40 bins2 density/number norm sample &
-			file right_small_bond_bins_dens.dat
+#compute 		bins2 ham chunk/atom bin/3d x 120.0 1 y 0.0 1.1467 z 2.8 1.1392 bound &
+#			x 120.0 150.0 bound y 0.0 34.4 bound z 2.8 29.0
+#fix  			d2 ham ave/chunk 2 5 40 bins2 density/number norm sample &
+#			file right_small_bond_bins_dens.dat
 
 thermo_style    	custom step temp pe etotal 
 thermo_modify	        temp myTemp
@@ -95,7 +101,7 @@ thermo			100
 #			screen no
 
 #restart     		100000 water.restart.mpiio
-dump			1 all custom 2000 cutoff_bond_sandwich.dat id type x y z
-run			20000000
+dump			1 all custom 200 tank.dat id type x y z
+run			100000
 
 

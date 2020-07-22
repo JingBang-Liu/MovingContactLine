@@ -12,9 +12,9 @@ LAMMPS data file for tank.MD
 0 dihedral types
 0 improper types
 
-0.0 30.2 xlo xhi
-0.0 34.0 ylo yhi
-0.0 47.5 zlo zhi
+0.0 31.0 xlo xhi
+0.0 34.5 ylo yhi
+0.0 48.0 zlo zhi
 
 Atoms
 
