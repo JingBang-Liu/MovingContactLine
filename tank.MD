@@ -42,7 +42,7 @@ fix 			wall bread spring/self 10000.0
 
 thermo 			10
 min_style 		fire
-min_modify 		dmax 0.01
+min_modify 		dmax 0.005
 minimize 		1.0e-5 1.0e-7 500 10000
 
 ############################################################	
