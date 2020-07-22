@@ -7,11 +7,11 @@ zatoms = 31;
 xatoms=30;
 liquid_tol = xatoms*yatoms*zatoms;
 liquid_latt = zeros(1,3);
-liquid_latt(1) = 1.0651;
+liquid_latt(1) = 1.0866;
 liquid_latt(2) = 1.0651;
 liquid_latt(3) = 1.0651;
 liquid_dim = [xatoms*liquid_latt(1); yatoms*liquid_latt(2); zatoms*liquid_latt(3)];
-liquid_start = [3*3.93/3.5+liquid_latt(1)/3; liquid_latt(2)/2; 3*3.93/3.5];
+liquid_start = [2*3.93/3.5 + liquid_latt(1); liquid_latt(2)/2; 3*3.93/3.5];
 
 % create and write positions
 m=0;
