@@ -4,7 +4,7 @@ clear all
 % basic parameters
 yatoms = 32;
 zatoms = 31;
-xatoms=23;
+xatoms=30;
 liquid_tol = xatoms*yatoms*zatoms;
 liquid_latt = zeros(1,3);
 liquid_latt(1) = 1.0651;
@@ -103,7 +103,7 @@ fclose(fileID);
 
 %% Walls
 % bottom wall
-xatoms_bot = 28;
+xatoms_bot = 35;
 yatoms_bot = 31;
 zatoms_bot = 3;
 wall_bot_tol = xatoms_bot*yatoms_bot*zatoms_bot;
@@ -120,7 +120,7 @@ walls_tol = wall_bot_tol + wall_left_tol + wall_right_tol;
 latt = 3.93/3.5;
 bot_wall_start = [0; 0; 0;];
 left_wall_start = [0; 0; 3*3.93/3.5];
-right_wall_start = [3*3.93/3.5+liquid_dim(1); 0; 3*3.93/3.5];
+right_wall_start = [(xatoms_bot-3)*latt; 0; 3*3.93/3.5];
 
 posx = zeros(walls_tol,1);
 posy = zeros(walls_tol,1);
