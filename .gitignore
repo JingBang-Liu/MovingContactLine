@@ -13,3 +13,11 @@ ContactLine.ipynb
 left_bins.npy
 right_bins.npy
 *.nc
+*.png
+
+Report.aux
+Report.blg
+Report.synctex.gz
+Report.bbl
+ReportNotes.bib
+Report.log

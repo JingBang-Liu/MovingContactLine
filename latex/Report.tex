@@ -1,0 +1,177 @@
+\documentclass[
+reprint,
+%superscriptaddress,
+%groupedaddress,
+%unsortedaddress,
+%runinaddress,
+%frontmatterverbose, 
+%preprint,
+%preprintnumbers,
+%nofootinbib,
+%nobibnotes,
+%bibnotes,
+ amsmath,amssymb,
+ aps,
+%pra,
+%prb,
+%rmp,
+%prstab,
+%prstper,
+%floatfix,
+url
+]{revtex4-1}
+
+\usepackage{graphicx}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+%\usepackage{hyperref}% add hypertext capabilities
+%\usepackage[mathlines]{lineno}% Enable numbering of text and display math
+%\linenumbers\relax % Commence numbering lines
+
+%\usepackage[showframe,%Uncomment any one of the following lines to test 
+%%scale=0.7, marginratio={1:1, 2:3}, ignoreall,% default settings
+%%text={7in,10in},centering,
+%%margin=1.5in,
+%%total={6.5in,8.75in}, top=1.2in, left=0.9in, includefoot,
+%%height=10in,a5paper,hmargin={3cm,0.8in},
+%]{geometry}
+
+\begin{document}
+
+\preprint{APS/123-QED}
+
+\title{Moving Contact Line and Thermal Fluctuation: \\a Molecular Dynamics Approach}% Force line breaks with \\
+
+
+\author{Jingbang Liu}
+ \email{jingbang.liu@warwick.ac.uk}
+\affiliation{%
+ Mathematics Institute, University of Warwick\\
+ Jingbang.Liu@warwick.ac.uk
+}%
+
+
+\author{James E. Sprittles}
+\email{j.e.sprittles@warwick.ac.uk}
+\affiliation{
+ Mathematics Institute, University of Warwick
+}%
+
+\author{Duncan A. Lockerby}
+\email{duncan.lockerby@warwick.ac.uk}
+\affiliation{%
+ School of Engineering, University of Warwick
+}%
+
+
+\date{\today}% It is always \today, today,
+             %  but any date may be explicitly specified
+
+\begin{abstract}
+here will be the abstract
+\begin{description}
+\item[keywords]
+keywords
+\end{description}
+\end{abstract}
+
+%\keywords{Suggested keywords}%Use showkeys class option if keyword
+                              %display desired
+\maketitle
+
+%\tableofcontents
+
+\section{Introduction}
+
+Wetting is a common phenomenon that describes the spreading of liquids on solid surfaces. The
+study of it can be dated back to the 19 th century when the famous Young-Laplace equation was
+proposed. The macroscopic properties of wetting have been well investigated, there are still many
+mysteries in dynamical wetting at the microscopic scale partially due to the lack of accurate
+experimental results. Understanding wetting in microscopic scale can be vital to the development of applications related to microfluidics and nanotechnology.
+
+The molecular-kinetic theory (MKT) was proposed by Blake and Haynes to explain the relation
+between the motion of contact-line and contact angle by considering the thermal fluctuation of liquid
+molecules. However the application of this theory is limited because the key parameter, contact-line
+friction, must be obtained by fitting experimental data. Recent papers from Blake et al [1][2] reported
+that this key parameter can be determined from the thermal fluctuations of the contact-line. They used
+large scale molecular dynamics (MD) simulations to obtain necessary data and calculated the contact-
+line friction coefficient using two different methods: the correlation function of the contact-line
+position modelled as an overdamped Langevin process and MKT theory. The results showed good
+agreement within the error bar.
+
+In this study we would like to verify the lin
+
+
+
+\section{Molecular Dynamics Simulation}
+
+Molecular dynamics simulations are use here as an tool of experiment to measure the fluctuation of the three-phase contact line since the ability to do real experiments in such a small scale is limited. As shown in Fig.~\ref{fig:simulation2} the set up of the simulation is similar to a tank of liquid. The bulk of liquid is placed between two parallel solid plates which forms two contact lines. Different from the configuration used in Blake's paper\cite{fernandez-toledano_contact-line_2019}, we add a third solid plate to prevent the liquid's centre of mass from moving drastically. The bulk of liquid touches the walls seamlessly so vacuum bubbles do not appear during the simulation. Periodic boundary conditions are applied in the $y$ direction to allow liquid particles to pass.  Simulations are performed in LAMMPS package\cite{plimpton_fast_1995}, which has been widely used to study fluid phenomena in nanoscale\cite{blake_forced_2015,zhang_molecular_2019,zhao_revisiting_2019}.
+
+The interaction of liquid and solid particles are modelled using the Lennard-Jones $12-6$ potential:
+\begin{equation}
+	V(r_{ij}) = 4\epsilon C_{AB}\bigg[\big(\frac{\sigma}{r_{ij}}\big)^{12} - \big(\frac{\sigma}{r_{ij}}\big)^6\bigg],
+\end{equation}
+where $r_ij$ is the distance between atoms $i$ and $j$, $\epsilon$ is the energy parameter representing the depth of potential wells, $\sigma$ is the length parameter representing the effective atomic diameter and $C_{AB}$ is a non-dimensional coupling parameter that allows us to adjust the strength of coupling between different types of particles, namely solid-solid (S-S), liquid-liquid (L-L) and solid-liquid (S-L). In our simulation for both liquid and solid particles $\sigma = 0.35$ $nm$ and $\epsilon = k_B T$, where $k_B$ is the Boltzmann constant and $T=33$ $K$ is the temperature. This choice of temperature ensures the liquid remains fluid. $C_{ss}$ and $C_{ll}$ are both given value of $1.0$, while $C_{sl}$ is varied from $0.6$ to $0.9$ to study its effect on the results. Both mass of liquid and solid particles are set to be $12$ $g/mol$ so they do not have an effect on the results.
+
+The simulation box has dimensions $(L_x,L_y,L_z) = (137.2,121.45,168.7)$ $nm$. Each solid plate is smooth on the surface and has three layer of solid particles sitting in cubic lattices. The bottom plate has $35\times 31\times 3=3255$ atoms and the side plates have $3\times 31 \times 40=3720$ atoms each. The lattice constant is chosen to be $2^{1/6} \sigma\approx 0.393$ $nm$ which is the distance of equilibrium for two solid particles under Lennard-Jones $12-6$ potential. An additional harmonic potential:
+\begin{equation}
+	V_h(r) = \frac{1000\epsilon}{\sigma^2}|\mathbf{r}-\mathbf{r}_0|^2
+\end{equation} 
+is applied to the solid particles allowing them to oscillate around their initial positions to exchange momentum with the liquid while maintaining the shape of plate. Here $\mathbf{r}$ is the instantaneous position of the particle and $\mathbf{r}_0$ is the initial position of the particle. The liquid is comprised of $29760$ particles. Every $8$ liquid particles are chained by a finitely extensible nonlinear elastic (FENE) bond:
+\begin{equation}
+	V_{\textit{FENE}}(r_ij) = -0.5\alpha R_0^2 \ln(1-\frac{r_{ij}^2}{R_0^2})
+\end{equation}
+where the strength $\alpha = 0.04556$ $J/m^2$ and maximum bond length $R_0 = 1.4\sigma$\cite{fernandez-toledano_contact-line_2019}. The FENE bonds help with maintaining the liquid configuration and create vacuum in the gas phase.
+
+
+
+At the beginning of each run the system is equilibrated for $10 ns$ ($2\times10^6$ timesteps) to achieve a stable configuration.  
+
+\begin{figure}
+	\includegraphics[scale=0.6]{simulation2.png}
+	\caption{\label{fig:simulation2}Instantaneous snapshot of the  molecular dynamics simulation with solid and liquid particles painted in blue and red.}
+\end{figure}
+
+\section{Langevin Model}
+
+\section{Results}
+
+\subsection{Verification of Liquid Properties}
+
+Here we verify surface tension, shear viscosity, and contact angle with different liquid-solid coupling parameter.
+
+\subsection{Fluctuation of Contact Line}
+
+\subsection{Fitting to the Langevin Model}
+
+\subsection{Uncertainty Quantification}
+
+
+
+
+
+\begin{acknowledgments}
+here will be the acknowledgements.
+\end{acknowledgments}
+
+\appendix
+
+\section{Appendixes}
+
+
+
+
+\subsection{\label{app:subsec}A subsection in an appendix}
+
+
+% The \nocite command causes all entries in a bibliography to be printed out
+% whether or not they are actually referenced in the text. This is appropriate
+% for the sample file to show the different styles of references, but authors
+% most likely will not want to use it.
+\nocite{*}
+
+\bibliography{MCL}% Produces the bibliography via BibTeX.
+
+\end{document}
+%
+% ****** End of file apssamp.tex ******
