@@ -10,6 +10,9 @@ exec
 *.m~
 ContactLine.ipynb
 .ipynb_checkpoints/ContactLine-checkpoints.ipynb
+ContactLine_tank.ipynb
+.ipynb_checkpoints/ContactLine_tank-checkpoints.ipynb
+.ipynb_checkpoints/*
 left_bins.npy
 right_bins.npy
 *.nc
