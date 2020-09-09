@@ -3,7 +3,8 @@
 # Job name: Sandwich/tank
 
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=12
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=16
 
 #SBATCH -p mnf
 #SBATCH --nodelist mnf149.csc.warwick.ac.uk
@@ -18,6 +19,6 @@ MY_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 export OMP_NUM_THREADS=$MY_NUM_THREADS
 
-srun lmp_mpi -in test.MD
-#srun lmp_mpi -in tank.MD
+#srun lmp_mpi -in test.MD
+srun lmp_mpi -in tank.MD
 #srun lmp_mpi -in Bins_Sandwich.MD

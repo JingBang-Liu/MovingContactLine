@@ -32,7 +32,7 @@ neigh_modify		every 1 delay 10 check yes
 pair_style              lj/cut  2.5
 
 pair_coeff              1 1  1.0 1.0 2.5
-pair_coeff              1 2  0.4 1.0 2.5
+pair_coeff              1 2  0.5 1.0 2.5
 pair_coeff              2 2  1.0 1.0 2.5
 #################### FENE bond #########################
 bond_style 		fene
@@ -60,7 +60,7 @@ fix 			400 all wall/reflect xlo EDGE
 timestep 		${dt}
 thermo 			100
 
-dump 			1 all custom 20000 4equ_tank.dat id type x y z
+dump 			1 all custom 20000 5equ_tank.dat id type x y z
 run 			2000000
 
 unfix 			1
@@ -86,7 +86,7 @@ fix 			400 all wall/reflect xlo EDGE
 compute 		bins ham chunk/atom bin/3d x 2.9 1.021875 y 0.0 1.147 z 30.0 1.0 bound &
 			x 2.9 35.6 bound y 0.0 34.4 bound z 30.0 45.0
 fix  			d ham ave/chunk 2 5 1000 bins density/number norm sample &
-			file 4tank_bins_dens.dat
+			file 5tank_bins_dens.dat
 
 #compute 		bins1 ham chunk/atom bin/3d x 60.0 1 y 0.0 1.1467 z 2.8 1.1392 bound &
 #			x 60.0 90.0 bound y 0.0 34.4 bound z 2.8 29.0
@@ -98,6 +98,10 @@ fix  			d ham ave/chunk 2 5 1000 bins density/number norm sample &
 #fix  			d2 ham ave/chunk 2 5 40 bins2 density/number norm sample &
 #			file right_small_bond_bins_dens.dat
 
+### to calculate msd
+#compute 		MSD ham msd com no average no
+#fix 			MSD ham ave/time 1 1 10 c_MSD[*] file msd.dat mode vector
+
 thermo_style    	custom step temp pe etotal 
 thermo_modify	        temp myTemp
 thermo			5000
@@ -105,7 +109,7 @@ thermo			5000
 #			screen no
 
 #restart     		100000 water.restart.mpiio
-dump			1 all custom 20000 4tank.dat id type x y z
+dump			1 all custom 20000 5tank.dat id type x y z
 run		        20000000
 
 

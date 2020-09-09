@@ -24,7 +24,7 @@ atom_style		bond
 special_bonds 		fene
 
 dimension 		3	
-boundary		f f f	
+boundary		p p p	
 
 read_data 		test_atomdata
 
@@ -62,25 +62,25 @@ thermo_style 		custom step temp ke pe etotal press
 velocity 		all create ${T} 12345 mom yes rot yes dist gaussian
 fix 			NVE all nve/limit 0.05
 fix 			2 all langevin 1 1 10 100000
-fix 			30 all wall/reflect xhi EDGE
-fix 			300 all wall/reflect xlo EDGE
-fix 			40 all wall/reflect yhi EDGE
-fix 			400 all wall/reflect ylo EDGE
-fix 			50 all wall/reflect zhi EDGE
-fix 			500 all wall/reflect zlo EDGE
+#fix 			30 all wall/reflect xhi EDGE
+#fix 			300 all wall/reflect xlo EDGE
+#fix 			40 all wall/reflect yhi EDGE
+#fix 			400 all wall/reflect ylo EDGE
+#fix 			50 all wall/reflect zhi EDGE
+#fix 			500 all wall/reflect zlo EDGE
 
 timestep 		0.002
-dump 			1 all custom 100 test_equ_equ.dat id type x y z
-run 			2000
+dump 			1 all custom 2000 test_equ_equ.dat id type x y z
+run 			50000
 
 unfix 			NVE
 unfix 			2
-unfix 			30
-unfix 			300
-unfix 			40
-unfix 			400
-unfix 			50
-unfix 			500
+#unfix 			30
+#unfix 			300
+#unfix 			40
+#unfix 			400
+#unfix 			50
+#unfix 			500
 undump 			1
 
 ############################################################
@@ -90,12 +90,12 @@ reset_timestep 		0
 velocity 		all create $T 293847 mom yes rot yes dist gaussian
 fix 			NVT all nvt temp $T $T 0.3
 #fix_modify 		NVT temp mobile
-fix 			30 all wall/reflect xhi EDGE
-fix 			300 all wall/reflect xlo EDGE
-fix 			40 all wall/reflect yhi EDGE
-fix 			400 all wall/reflect ylo EDGE
-fix 			50 all wall/reflect zhi EDGE
-fix 			500 all wall/reflect zlo EDGE
+#fix 			30 all wall/reflect xhi EDGE
+#fix 			300 all wall/reflect xlo EDGE
+#fix 			40 all wall/reflect yhi EDGE
+#fix 			400 all wall/reflect ylo EDGE
+#fix 			50 all wall/reflect zhi EDGE
+#fix 			500 all wall/reflect zlo EDGE
 
 variable 		pxy equal pxy
 variable 		pxz equal pxz
@@ -106,9 +106,9 @@ variable 		v11 equal trap(f_SS[3])*${convert}
 variable 		v22 equal trap(f_SS[4])*${convert}
 variable 		v33 equal trap(f_SS[5])*${convert}
 thermo_style 		custom step temp press v_pxy v_pxz v_pyz v_v11 v_v22 v_v33
-dump 			1 all custom 500 1test_bond_sandwich.dat id type x y z
+dump 			1 all custom 2000 1test_bond_sandwich.dat id type x y z
 
-run 			50000
+run 			1000000
 variable 		v equal (v_v11+v_v22+v_v33)/3.0
 variable 		ndens equal count(all)/vol
 print 			"average viscosity: $v [Pa.s] @ $T K, ${ndens} /A^3"

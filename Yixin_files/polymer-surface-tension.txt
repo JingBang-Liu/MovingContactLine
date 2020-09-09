@@ -1,2 +1,6 @@
 # Time-averaged data for fix 2
 # TimeStep v_my_surften
+500000 0.29925
+1000000 0.116395
+1500000 0.11356
+2000000 0.10429

@@ -12,9 +12,9 @@ LAMMPS data file for test.MD
 0 dihedral types
 0 improper types
 
-0.0 35.1 xlo xhi
-0.0 33.8 ylo yhi
-0.0 35.7 zlo zhi
+3.0 35.0 xlo xhi
+0.0 34.2 ylo yhi
+3.0 35.8 zlo zhi
 
 Atoms
 

@@ -19,8 +19,8 @@ mass		1 1.0
 # LJ potentials
 
 bond_style  fene
-bond_coeff 	1 10.2478 1.4 1 1
-#bond_coeff	1 12.2554 1.4 1 1 
+#bond_coeff 	1 10.2478 1.4 1 1
+bond_coeff	1 12.2554 1.4 1 1 
 
 pair_style	lj/cut 2.5
 pair_coeff	1 1 1.0 1.0 2.5

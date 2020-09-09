@@ -17,6 +17,9 @@ left_bins.npy
 right_bins.npy
 *.nc
 *.png
+*.npy
+*.id
+*.surften_vlv
 
 Report.aux
 Report.blg

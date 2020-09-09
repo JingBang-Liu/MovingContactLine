@@ -1,6 +1,6 @@
 /*********** data file information ****************
-'../6tank_bins_dens.dat'     ! file name
-'6bins.nc'         ! netcdf file name
+'../5tank_bins_dens.dat'     ! file name
+'5bins.nc'         ! netcdf file name
 bins                   ! data type
 9                     ! header
 81390                     ! number of particles
