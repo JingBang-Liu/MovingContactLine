@@ -20,6 +20,8 @@ right_bins.npy
 *.npy
 *.id
 *.surften_vlv
+*.svg
+*.docx
 
 Report.aux
 Report.blg
