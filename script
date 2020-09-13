@@ -3,11 +3,11 @@
 # Job name: Sandwich/tank
 
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=16
+#SBATCH --ntasks-per-node=16
+#SBATCH --cpus-per-task=2
 
 #SBATCH -p mnf
-#SBATCH --nodelist mnf149.csc.warwick.ac.uk
+#SBATCH --nodelist dedicated-h02.csc.warwick.ac.uk
 
 #SBATCH --mem-per-cpu=1024
 
